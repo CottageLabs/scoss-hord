@@ -6,7 +6,12 @@ var hord = {
         var form_selector = params.form_selector;
         var diagrams_selector = params.diagrams_selector;
         var editUrlTemplate = params.editUrlTemplate;
+        var editUrlRegex = params.editUrlRegex;
         var viewUrlTemplate = params.viewUrlTemplate;
+        var viewUrlRegex = params.viewUrlRegex;
+
+        // is there any data for us to pull out of the url bar?
+        hord.prePopulateFromURL({selector: form_selector, editUrlRegex: editUrlRegex});
 
         // make the Edge that will handle the viz
         var e = edges.newEdge({
@@ -17,6 +22,7 @@ var hord = {
                     id: "main",
                     category: "radar",
                     dataFunction: hord.dataFunction({chart: "main", resource: form_selector}),
+                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "RDM Service Provision"}),
                     renderer : edges.chartjs.newRadar({
                         options: {
                             scale: {
@@ -31,7 +37,7 @@ var hord = {
                             }
                         },
                         dataSeriesProperties : {
-                            Results : {
+                            results : {
                                 fill:true,
                                 backgroundColor:"rgba(87, 153, 199, 0.3)",
                                 borderColor:"#5799C7",
@@ -47,6 +53,7 @@ var hord = {
                     id: "tailored",
                     category: "radar",
                     dataFunction: hord.dataFunction({chart: "tailored", resource: form_selector}),
+                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "RDM Tailored Services"}),
                     renderer : edges.chartjs.newRadar({
                         options: {
                             scale: {
@@ -61,7 +68,7 @@ var hord = {
                             }
                         },
                         dataSeriesProperties : {
-                            Results : {
+                            results : {
                                 fill:true,
                                 backgroundColor:"rgba(87, 153, 199, 0.3)",
                                 borderColor:"#5799C7",
@@ -77,6 +84,7 @@ var hord = {
                     id: "leading",
                     category: "radar",
                     dataFunction: hord.dataFunction({chart: "leading", resource: form_selector}),
+                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "Sector-leading Activity"}),
                     renderer : edges.chartjs.newRadar({
                         options: {
                             scale: {
@@ -91,7 +99,7 @@ var hord = {
                             }
                         },
                         dataSeriesProperties : {
-                            Results : {
+                            results : {
                                 fill:true,
                                 backgroundColor:"rgba(87, 153, 199, 0.3)",
                                 borderColor:"#5799C7",
@@ -117,13 +125,83 @@ var hord = {
 
         // bind a readForm to change, and then read the form initially too
         $('[data-hord]', form_selector).on('change', function(event) {
-            hord.cycle({form_selector: form_selector});
+            hord.cycle({form_selector: form_selector, update_date: true});
         });
         hord.cycle({form_selector: form_selector});
     },
 
+    dataSeriesNameMap : function(params) {
+        var resource = params.resource;
+        var subtitle = params.subtitle;
+
+        return function(component) {
+            if (!component.edge.resources.hasOwnProperty(resource)) {
+                return {}
+            }
+
+            var title = subtitle;
+            var name = component.edge.resources[resource]["title"];
+            if (name != "") {
+                title += " - " + name;
+
+                if (hord.DATA.date) {
+                    var fd = hord.formatDate(hord.DATA.date);
+                    title += ", " + fd;
+                }
+            }
+
+            return {"results" : title};
+        }
+    },
+
+    formatDate : function(date) {
+        var day = date.getUTCDate();
+        var month = date.getUTCMonth();
+        var year = date.getUTCFullYear();
+
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        return day + " " + months[month] + " " + year;
+    },
+
+    prePopulateFromURL : function(params) {
+        var form_selector = params.selector;
+        var editUrlRegex = params.editUrlRegex;
+
+        var rxres = editUrlRegex.exec(window.location.href);
+        if (rxres === null) {
+            return;
+        }
+
+        var parts = atob(rxres[1]).split("|");
+        if (parts.length !== 2) {
+            return;
+        }
+        var metadata = parts[0].split(",");
+        if (metadata.length !== 2) {
+            return;
+        }
+        $('input[data-hord=title]').val(metadata[0]);
+        hord.DATA.date = new Date(parseInt(metadata[1]));
+
+        if (parts[1] !== "") {
+            var idents = parts[1].split(",");
+            for (var i = 0; i < idents.length; i++) {
+                var ident = idents[i];
+                var selector = 'input[name=' + ident + ']';
+                $(selector, form_selector).prop("checked", true);
+            }
+        }
+    },
+
     cycle: function(params) {
+        var update_date = edges.getParam(params.update_date, false);
+
         hord.readForm({selector: params.form_selector});
+        if (!hord.DATA.date || update_date === true) {
+            hord.DATA.date = new Date();
+        }
+
         hord.DATA.edge.cycle();
     },
 
@@ -169,15 +247,24 @@ var hord = {
                 return;
             }
 
-            var data = this.edge.resources[this.resource][this.sourceChart];
+            var name = this.edge.resources[this.resource]["title"];
+            var date = "";
+            if (name) {
+                date = hord.DATA.date.getTime();
+            }
+            this.summary += name + "," + date + "|";
+
+            var answers = "";
+            var data = this.edge.resources[this.resource]["charts"][this.sourceChart];
             for (var axis in data) {
                 if (data[axis].selected_values.length > 0) {
-                    if (this.summary.length != 0) {
-                        this.summary += ","
+                    if (answers.length != 0) {
+                        answers += ","
                     }
-                    this.summary += data[axis].selected_values.join(",");
+                    answers += data[axis].selected_values.join(",");
                 }
             }
+            this.summary += answers;
         };
     },
 
@@ -208,14 +295,14 @@ var hord = {
             if (!component.edge.resources.hasOwnProperty(resource)) {
                 return [];
             }
-            var data = component.edge.resources[resource][chart];
+            var data = component.edge.resources[resource]["charts"][chart];
             var values = [];
             for (var key in data) {
                 var name = data[key]["name"];
                 var val = data[key]["length"];
                 values.push({label: name, value: val});
             }
-            return [{key: "Results", values: values}];
+            return [{key: "results", values: values}];
         }
     },
 
@@ -226,6 +313,7 @@ var hord = {
         // First, read all of the data out of the form
         var axes = [];
         var values = [];
+        var title = "";
         for (var i = 0; i < elements.length; i++) {
             var el = $(elements[i]);
             var type = el.attr("data-hord");
@@ -236,20 +324,24 @@ var hord = {
             } else if (type === "value") {
                 var value = hord._readValueConfig(el);
                 values.push(value);
+            } else if (type === "title") {
+                title = el.val();
             }
         }
 
         var charts = hord._listCharts({axes: axes});
 
         var data = {};
+        data["title"] = title;
+        data["charts"] = {}
         for (var i = 0; i < charts.length; i++) {
             var chart = charts[i];
-            data[chart] = {};
+            data["charts"][chart] = {};
             var chartAxes = hord._listChartAxes({chart: chart, axes: axes});
             for (var j = 0; j < chartAxes.length; j++) {
                 var chartAxis = chartAxes[j];
-                var lengthData = hord._getLength({chart: chart, axisid: chartAxis.id, values: values})
-                data[chart][chartAxis.id] = {
+                var lengthData = hord._getLength({chart: chart, axisid: chartAxis.id, values: values});
+                data["charts"][chart][chartAxis.id] = {
                     name: chartAxis.name,
                     length: lengthData.length,
                     selected_values: lengthData.selected

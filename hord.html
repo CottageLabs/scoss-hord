@@ -19,6 +19,9 @@
             <div id="hord">
 
 <form>
+
+    <input type="text" data-hord="title" name="organisation" placeholder="enter your organisation name" style="width: 100%">
+
     <h1 data-hord="axis" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored,leading">RDM policy and strategy</h1>
 
     <h2>Policy development</h2>
@@ -488,8 +491,10 @@
         hord.init({
             form_selector: "#hord",
             diagrams_selector: "#radar-diagrams",
-            editUrlTemplate: "localhost:8000/hord.html#{summary}",
-            viewUrlTemplate: "localhost:8000/view.html#{summary}"
+            editUrlTemplate: "localhost:8000/hord.html?d={summary}",
+            editUrlRegex: new RegExp(".+d=(.+)"),
+            viewUrlTemplate: "localhost:8000/view.html?d={summary}",
+            viewUrlRegex: new RegExp(".+d=(.+)")
         })
     });
 </script>
