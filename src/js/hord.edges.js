@@ -5,6 +5,8 @@ var hord = {
     init : function(params) {
         var form_selector = params.form_selector;
         var diagrams_selector = params.diagrams_selector;
+        var editUrlTemplate = params.editUrlTemplate;
+        var viewUrlTemplate = params.viewUrlTemplate;
 
         // make the Edge that will handle the viz
         var e = edges.newEdge({
@@ -100,6 +102,14 @@ var hord = {
                             }
                         }
                     })
+                }),
+                hord.newPersistentLink({
+                    id: "persistent-link",
+                    category: "radar",
+                    sourceChart: "main",
+                    resource: form_selector,
+                    editUrlTemplate: editUrlTemplate,
+                    viewUrlTemplate: viewUrlTemplate
                 })
             ]
         });
@@ -138,6 +148,55 @@ var hord = {
             }
 
             edge.context.html(frag);
+        }
+    },
+
+    newPersistentLink : function(params) {
+        return edges.instantiate(hord.PersistentLink, params, edges.newComponent);
+    },
+    PersistentLink: function(params) {
+        this.sourceChart = params.sourceChart;
+        this.resource = params.resource;
+        this.editUrlTemplate = params.editUrlTemplate;
+        this.viewUrlTemplate = params.viewUrlTemplate;
+        this.renderer = hord.newPersistentLinkRenderer();
+
+        this.summary = "";
+
+        this.synchronise = function() {
+            this.summary = "";
+            if (!this.edge.resources.hasOwnProperty(this.resource)) {
+                return;
+            }
+
+            var data = this.edge.resources[this.resource][this.sourceChart];
+            for (var axis in data) {
+                if (data[axis].selected_values.length > 0) {
+                    if (this.summary.length != 0) {
+                        this.summary += ","
+                    }
+                    this.summary += data[axis].selected_values.join(",");
+                }
+            }
+        };
+    },
+
+    newPersistentLinkRenderer : function(params) {
+        return edges.instantiate(hord.PersistentLinkRenderer, params, edges.newRenderer);
+    },
+    PersistentLinkRenderer : function(params) {
+        this.namespace = "hord-persistent-link";
+        this.draw = function() {
+            var s = btoa(this.component.summary);
+            var editUrl = this.component.editUrlTemplate.replace("{summary}", s);
+            var viewUrl = this.component.viewUrlTemplate.replace("{summary}", s);
+
+            var frag = "<p>To return to this form in its current state, use the following URL:</p>";
+            frag += '<div style="word-wrap: break-word"><a href="' + editUrl + '">' + editUrl + "</a></div>";
+            frag += "<br><br>";
+            frag += '<p>To view or share just the diagrams, use the following URL:</p>';
+            frag += '<div style="word-wrap: break-word"><a href="' + viewUrl + '">' + viewUrl + "</a></div>";
+            this.component.context.html(frag);
         }
     },
 
