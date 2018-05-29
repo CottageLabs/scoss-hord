@@ -3,19 +3,171 @@ var hord = {
     DATA : {},
 
     init : function(params) {
-        var form_selector = params.form_selector;
-        var diagrams_selector = params.diagrams_selector;
+        // detect the mode
+        var mode = hord.detectMode();
+        if (mode === "view") {
+            hord.view(params);
+        } else if (mode === "edit") {
+            hord.edit(params);
+        }
+    },
+
+    view : function(params) {
+        var form_selector = params.source_selector;
+        var working_selector = params.working_selector;
+
         var editUrlTemplate = params.editUrlTemplate;
         var editUrlRegex = params.editUrlRegex;
         var viewUrlTemplate = params.viewUrlTemplate;
         var viewUrlRegex = params.viewUrlRegex;
 
+        var template = '<div class="row">\
+            <div class="col-sm-12 col-md-8 col-md-offset-2">\
+                <div id="radar-diagrams"></div>\
+            </div>\
+        </div>';
+        $(working_selector).html(template);
+
         // is there any data for us to pull out of the url bar?
-        hord.prePopulateFromURL({selector: form_selector, editUrlRegex: editUrlRegex});
+        hord.prePopulateFromURL({selector: form_selector, urlRegex: viewUrlRegex});
 
         // make the Edge that will handle the viz
         var e = edges.newEdge({
-            selector : diagrams_selector,
+            selector : "#radar-diagrams",
+            template: hord.newRadarDiagramsTemplate(),
+            components : [
+                edges.newChart({
+                    id: "main",
+                    category: "radar",
+                    dataFunction: hord.dataFunction({chart: "main", resource: form_selector}),
+                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "RDM Service Provision"}),
+                    renderer : edges.chartjs.newRadar({
+                        options: {
+                            scale: {
+                                ticks: {
+                                    beginAtZero: true,
+                                    min: 0,
+                                    max: 9,
+                                    stepSize: 1,
+                                    suggestedMin: 0,
+                                    suggestedMax: 9
+                                }
+                            }
+                        },
+                        dataSeriesProperties : {
+                            results : {
+                                fill:true,
+                                backgroundColor:"rgba(87, 153, 199, 0.3)",
+                                borderColor:"#5799C7",
+                                pointBackgroundColor:"#5799C7",
+                                pointBorderColor:"#fff",
+                                pointHoverBackgroundColor:"#fff",
+                                pointHoverBorderColor:"rgba(220,220,220,1)"
+                            }
+                        }
+                    })
+                }),
+                edges.newChart({
+                    id: "tailored",
+                    category: "radar",
+                    dataFunction: hord.dataFunction({chart: "tailored", resource: form_selector}),
+                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "RDM Tailored Services"}),
+                    renderer : edges.chartjs.newRadar({
+                        options: {
+                            scale: {
+                                ticks: {
+                                    beginAtZero: true,
+                                    min: 0,
+                                    max: 3,
+                                    stepSize: 1,
+                                    suggestedMin: 0,
+                                    suggestedMax: 3
+                                }
+                            }
+                        },
+                        dataSeriesProperties : {
+                            results : {
+                                fill:true,
+                                backgroundColor:"rgba(87, 153, 199, 0.3)",
+                                borderColor:"#5799C7",
+                                pointBackgroundColor:"#5799C7",
+                                pointBorderColor:"#fff",
+                                pointHoverBackgroundColor:"#fff",
+                                pointHoverBorderColor:"rgba(220,220,220,1)"
+                            }
+                        }
+                    })
+                }),
+                edges.newChart({
+                    id: "leading",
+                    category: "radar",
+                    dataFunction: hord.dataFunction({chart: "leading", resource: form_selector}),
+                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "Sector-leading Activity"}),
+                    renderer : edges.chartjs.newRadar({
+                        options: {
+                            scale: {
+                                ticks: {
+                                    beginAtZero: true,
+                                    min: 0,
+                                    max: 3,
+                                    stepSize: 1,
+                                    suggestedMin: 0,
+                                    suggestedMax: 3
+                                }
+                            }
+                        },
+                        dataSeriesProperties : {
+                            results : {
+                                fill:true,
+                                backgroundColor:"rgba(87, 153, 199, 0.3)",
+                                borderColor:"#5799C7",
+                                pointBackgroundColor:"#5799C7",
+                                pointBorderColor:"#fff",
+                                pointHoverBackgroundColor:"#fff",
+                                pointHoverBorderColor:"rgba(220,220,220,1)"
+                            }
+                        }
+                    })
+                })
+            ]
+        });
+        hord.DATA.edge = e;
+
+        hord.cycle({form_selector: form_selector});
+    },
+
+    edit : function(params) {
+        var source_selector = params.source_selector;
+        var working_selector = params.working_selector;
+        
+        var editUrlTemplate = params.editUrlTemplate;
+        var editUrlRegex = params.editUrlRegex;
+        var viewUrlTemplate = params.viewUrlTemplate;
+        var viewUrlRegex = params.viewUrlRegex;
+
+        // since we're editing the form, show it
+        var form = $(source_selector).html();
+        $(source_selector).html("");
+
+        var template = '<div class="row">\
+            <div class="col-md-6">\
+                <div id="radar-diagrams"></div>\
+            </div>\
+            <div class="col-md-6">\
+                <div id="hord"></div>\
+            </div>\
+        </div>';
+        $(working_selector).html(template);
+
+        var form_selector = "#hord";
+        $(form_selector, working_selector).html(form);
+
+        // is there any data for us to pull out of the url bar?
+        hord.prePopulateFromURL({selector: form_selector, urlRegex: editUrlRegex});
+
+        // make the Edge that will handle the viz
+        var e = edges.newEdge({
+            selector : "#radar-diagrams",
             template: hord.newRadarDiagramsTemplate(),
             components : [
                 edges.newChart({
@@ -130,6 +282,11 @@ var hord = {
         hord.cycle({form_selector: form_selector});
     },
 
+    detectMode : function() {
+        var urlParams = edges.getUrlParams();
+        return edges.getParam(urlParams.mode, "view");
+    },
+
     dataSeriesNameMap : function(params) {
         var resource = params.resource;
         var subtitle = params.subtitle;
@@ -166,9 +323,9 @@ var hord = {
 
     prePopulateFromURL : function(params) {
         var form_selector = params.selector;
-        var editUrlRegex = params.editUrlRegex;
+        var urlRegex = params.urlRegex;
 
-        var rxres = editUrlRegex.exec(window.location.href);
+        var rxres = urlRegex.exec(window.location.href);
         if (rxres === null) {
             return;
         }
