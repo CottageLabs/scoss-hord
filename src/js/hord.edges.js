@@ -42,6 +42,8 @@ var hord = {
                     dataFunction: hord.dataFunction({chart: "main", resource: form_selector}),
                     dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "RDM Service Provision"}),
                     renderer : edges.chartjs.newRadar({
+                        download: true,
+                        downloadName: "RDM-Service-Provision",
                         options: {
                             scale: {
                                 ticks: {
@@ -73,6 +75,8 @@ var hord = {
                     dataFunction: hord.dataFunction({chart: "tailored", resource: form_selector}),
                     dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "RDM Tailored Services"}),
                     renderer : edges.chartjs.newRadar({
+                        download: true,
+                        downloadName: "RDM-Tailored-Services",
                         options: {
                             scale: {
                                 ticks: {
@@ -104,6 +108,8 @@ var hord = {
                     dataFunction: hord.dataFunction({chart: "leading", resource: form_selector}),
                     dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "Sector-leading Activity"}),
                     renderer : edges.chartjs.newRadar({
+                        download: true,
+                        downloadName: "Sector-leading-Activity",
                         options: {
                             scale: {
                                 ticks: {
