@@ -8,15 +8,156 @@ var hord = {
 
         // make the Edge that will handle the viz
         var e = edges.newEdge({
-            selector : diagrams_selector
+            selector : diagrams_selector,
+            template: hord.newRadarDiagramsTemplate(),
+            components : [
+                edges.newChart({
+                    id: "main",
+                    category: "radar",
+                    dataFunction: hord.dataFunction({chart: "main", resource: form_selector}),
+                    renderer : edges.chartjs.newRadar({
+                        options: {
+                            scale: {
+                                ticks: {
+                                    beginAtZero: true,
+                                    min: 0,
+                                    max: 9,
+                                    stepSize: 1,
+                                    suggestedMin: 0,
+                                    suggestedMax: 9
+                                }
+                            }
+                        },
+                        dataSeriesProperties : {
+                            Results : {
+                                fill:true,
+                                backgroundColor:"rgba(87, 153, 199, 0.3)",
+                                borderColor:"#5799C7",
+                                pointBackgroundColor:"#5799C7",
+                                pointBorderColor:"#fff",
+                                pointHoverBackgroundColor:"#fff",
+                                pointHoverBorderColor:"rgba(220,220,220,1)"
+                            }
+                        }
+                    })
+                }),
+                edges.newChart({
+                    id: "tailored",
+                    category: "radar",
+                    dataFunction: hord.dataFunction({chart: "tailored", resource: form_selector}),
+                    renderer : edges.chartjs.newRadar({
+                        options: {
+                            scale: {
+                                ticks: {
+                                    beginAtZero: true,
+                                    min: 0,
+                                    max: 3,
+                                    stepSize: 1,
+                                    suggestedMin: 0,
+                                    suggestedMax: 3
+                                }
+                            }
+                        },
+                        dataSeriesProperties : {
+                            Results : {
+                                fill:true,
+                                backgroundColor:"rgba(87, 153, 199, 0.3)",
+                                borderColor:"#5799C7",
+                                pointBackgroundColor:"#5799C7",
+                                pointBorderColor:"#fff",
+                                pointHoverBackgroundColor:"#fff",
+                                pointHoverBorderColor:"rgba(220,220,220,1)"
+                            }
+                        }
+                    })
+                }),
+                edges.newChart({
+                    id: "leading",
+                    category: "radar",
+                    dataFunction: hord.dataFunction({chart: "leading", resource: form_selector}),
+                    renderer : edges.chartjs.newRadar({
+                        options: {
+                            scale: {
+                                ticks: {
+                                    beginAtZero: true,
+                                    min: 0,
+                                    max: 3,
+                                    stepSize: 1,
+                                    suggestedMin: 0,
+                                    suggestedMax: 3
+                                }
+                            }
+                        },
+                        dataSeriesProperties : {
+                            Results : {
+                                fill:true,
+                                backgroundColor:"rgba(87, 153, 199, 0.3)",
+                                borderColor:"#5799C7",
+                                pointBackgroundColor:"#5799C7",
+                                pointBorderColor:"#fff",
+                                pointHoverBackgroundColor:"#fff",
+                                pointHoverBorderColor:"rgba(220,220,220,1)"
+                            }
+                        }
+                    })
+                })
+            ]
         });
         hord.DATA.edge = e;
 
         // bind a readForm to change, and then read the form initially too
         $('[data-hord]', form_selector).on('change', function(event) {
-            hord.readForm({selector: form_selector})
+            hord.cycle({form_selector: form_selector});
         });
-        hord.readForm({selector: form_selector});
+        hord.cycle({form_selector: form_selector});
+    },
+
+    cycle: function(params) {
+        hord.readForm({selector: params.form_selector});
+        hord.DATA.edge.cycle();
+    },
+
+    newRadarDiagramsTemplate : function(params) {
+        return edges.instantiate(hord.RadarDiagramsTemplate, params, edges.newTemplate);
+    },
+    RadarDiagramsTemplate : function(params) {
+        this.namespace = "hord-radar-diagrams";
+        
+        this.draw = function(edge) {
+            this.edge = edge;
+
+            var containerClass = edges.css_classes(this.namespace, "container");
+            var sectionClass = edges.css_classes(this.namespace, "section");
+
+            var frag = '<div class="' + containerClass + '">';
+            var radars = edge.category("radar");
+            for (var i = 0; i < radars.length; i++) {
+                frag += '<div class="' + sectionClass + '">\
+                    <div class="row"><div class="col-md-12"><div id="' + radars[i].id + '"></div></div></div>\
+                </div>'
+            }
+
+            edge.context.html(frag);
+        }
+    },
+
+    dataFunction : function(params) {
+        var resource = params.resource;
+        var chart = params.chart;
+
+        return function(component) {
+            if (!component.edge.resources.hasOwnProperty(resource)) {
+                return [];
+            }
+            var data = component.edge.resources[resource][chart];
+            var values = [];
+            for (var key in data) {
+                var name = data[key]["name"];
+                var val = data[key]["length"];
+                values.push({label: name, value: val});
+            }
+            return [{key: "Results", values: values}];
+        }
     },
 
     readForm : function(params) {
