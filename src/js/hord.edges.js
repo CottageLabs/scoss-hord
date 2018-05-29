@@ -283,9 +283,9 @@ var hord = {
         var checked = el.is(":checked");
 
         if (!weight) {
-            weight = 1;
+            weight = 1.0;
         } else {
-            weight = parseInt(weight);
+            weight = parseFloat(weight);
         }
 
         if (charts) {
@@ -300,7 +300,7 @@ var hord = {
             if (!chart_weight) {
                 chart_weight = weight;
             } else {
-                chart_weight = parseInt(chart_weight);
+                chart_weight = parseFloat(chart_weight);
             }
             weights[charts[i]] = chart_weight;
         }
