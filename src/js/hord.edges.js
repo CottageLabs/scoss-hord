@@ -31,132 +31,25 @@ var hord = {
         // is there any data for us to pull out of the url bar?
         hord.prePopulateFromURL({selector: form_selector, urlRegex: viewUrlRegex});
 
+        var config = hord.readConfig({form_selector: form_selector});
+        hord.DATA.config = config;
+
+        var components = [];
+        for (var i = 0; i < config.charts.length; i++) {
+            var chart_id = config.charts[i];
+            components.push(hord._makeChartComponent({
+                form_selector: form_selector,
+                chart_id: chart_id,
+                config: config,
+                download: true
+            }));
+        }
+
         // make the Edge that will handle the viz
         var e = edges.newEdge({
             selector : "#radar-diagrams",
             template: hord.newRadarDiagramsTemplate(),
-            components : [
-                edges.newChart({
-                    id: "main",
-                    category: "radar",
-                    dataFunction: hord.dataFunction({chart: "main", resource: form_selector}),
-                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "RDM Service Provision"}),
-                    renderer : edges.chartjs.newRadar({
-                        download: true,
-                        downloadName: "RDM-Service-Provision",
-                        options: {
-                            scale: {
-                                ticks: {
-                                    beginAtZero: true,
-                                    min: 0,
-                                    max: 9,
-                                    stepSize: 1,
-                                    suggestedMin: 0,
-                                    suggestedMax: 9,
-                                    callback: function() {return ""}
-                                }
-                            },
-                            legend: {
-                                labels: {
-                                    fontStyle: 'bold'
-                                },
-                                onClick : function() {}
-                            }
-                        },
-                        dataSeriesProperties : {
-                            results : {
-                                fill:true,
-                                backgroundColor:"rgba(87, 153, 199, 0.3)",
-                                borderColor:"#5799C7",
-                                pointBackgroundColor:"#5799C7",
-                                pointBorderColor:"#fff",
-                                pointHoverBackgroundColor:"#fff",
-                                pointHoverBorderColor:"rgba(220,220,220,1)"
-                            }
-                        }
-                    })
-                }),
-                edges.newChart({
-                    id: "tailored",
-                    category: "radar",
-                    dataFunction: hord.dataFunction({chart: "tailored", resource: form_selector}),
-                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "RDM Tailored Services"}),
-                    renderer : edges.chartjs.newRadar({
-                        download: true,
-                        downloadName: "RDM-Tailored-Services",
-                        options: {
-                            scale: {
-                                ticks: {
-                                    beginAtZero: true,
-                                    min: 0,
-                                    max: 3,
-                                    stepSize: 1,
-                                    suggestedMin: 0,
-                                    suggestedMax: 3,
-                                    callback: function() {return ""}
-                                }
-                            },
-                            legend: {
-                                labels: {
-                                    fontStyle: 'bold'
-                                },
-                                onClick : function() {}
-                            }
-                        },
-                        dataSeriesProperties : {
-                            results : {
-                                fill:true,
-                                backgroundColor:"rgba(87, 153, 199, 0.3)",
-                                borderColor:"#5799C7",
-                                pointBackgroundColor:"#5799C7",
-                                pointBorderColor:"#fff",
-                                pointHoverBackgroundColor:"#fff",
-                                pointHoverBorderColor:"rgba(220,220,220,1)"
-                            }
-                        }
-                    })
-                }),
-                edges.newChart({
-                    id: "leading",
-                    category: "radar",
-                    dataFunction: hord.dataFunction({chart: "leading", resource: form_selector}),
-                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "Sector-leading Activity"}),
-                    renderer : edges.chartjs.newRadar({
-                        download: true,
-                        downloadName: "Sector-leading-Activity",
-                        options: {
-                            scale: {
-                                ticks: {
-                                    beginAtZero: true,
-                                    min: 0,
-                                    max: 3,
-                                    stepSize: 1,
-                                    suggestedMin: 0,
-                                    suggestedMax: 3,
-                                    callback: function() {return ""}
-                                }
-                            },
-                            legend: {
-                                labels: {
-                                    fontStyle: 'bold'
-                                },
-                                onClick : function() {}
-                            }
-                        },
-                        dataSeriesProperties : {
-                            results : {
-                                fill:true,
-                                backgroundColor:"rgba(87, 153, 199, 0.3)",
-                                borderColor:"#5799C7",
-                                pointBackgroundColor:"#5799C7",
-                                pointBorderColor:"#fff",
-                                pointHoverBackgroundColor:"#fff",
-                                pointHoverBorderColor:"rgba(220,220,220,1)"
-                            }
-                        }
-                    })
-                })
-            ]
+            components: components
         });
         hord.DATA.edge = e;
 
@@ -189,7 +82,7 @@ var hord = {
         var form_selector = "#hord";
         $(form_selector, working_selector).html(form);
 
-        // collapse all the section
+        // collapse all the sections
         $(".collapsible").hide();
         $("[data-controller-id]").on("click", function(event) {
             event.preventDefault();
@@ -206,134 +99,32 @@ var hord = {
         // is there any data for us to pull out of the url bar?
         hord.prePopulateFromURL({selector: form_selector, urlRegex: editUrlRegex});
 
+        var config = hord.readConfig({form_selector: form_selector});
+        hord.DATA.config = config;
+
+        var components = [];
+        for (var i = 0; i < config.charts.length; i++) {
+            var chart_id = config.charts[i];
+            components.push(hord._makeChartComponent({
+                form_selector: form_selector,
+                chart_id: chart_id,
+                config: config
+            }));
+        }
+        components.push(hord.newPersistentLink({
+            id: "persistent-link",
+            category: "radar",
+            sourceChart: "main",
+            resource: form_selector,
+            editUrlTemplate: editUrlTemplate,
+            viewUrlTemplate: viewUrlTemplate
+        }));
+        
         // make the Edge that will handle the viz
         var e = edges.newEdge({
             selector : "#radar-diagrams",
             template: hord.newRadarDiagramsTemplate(),
-            components : [
-                edges.newChart({
-                    id: "main",
-                    category: "radar",
-                    dataFunction: hord.dataFunction({chart: "main", resource: form_selector}),
-                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "RDM Service Provision"}),
-                    renderer : edges.chartjs.newRadar({
-                        options: {
-                            scale: {
-                                ticks: {
-                                    beginAtZero: true,
-                                    min: 0,
-                                    max: 9,
-                                    stepSize: 1,
-                                    suggestedMin: 0,
-                                    suggestedMax: 9,
-                                    callback: function() {return ""}
-                                }
-                            },
-                            legend: {
-                                labels: {
-                                    fontStyle: 'bold'
-                                },
-                                onClick : function() {}
-                            }
-                        },
-                        dataSeriesProperties : {
-                            results : {
-                                fill:true,
-                                backgroundColor:"rgba(87, 153, 199, 0.3)",
-                                borderColor:"#5799C7",
-                                pointBackgroundColor:"#5799C7",
-                                pointBorderColor:"#fff",
-                                pointHoverBackgroundColor:"#fff",
-                                pointHoverBorderColor:"rgba(220,220,220,1)"
-                            }
-                        }
-                    })
-                }),
-                edges.newChart({
-                    id: "tailored",
-                    category: "radar",
-                    dataFunction: hord.dataFunction({chart: "tailored", resource: form_selector}),
-                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "RDM Tailored Services"}),
-                    renderer : edges.chartjs.newRadar({
-                        options: {
-                            scale: {
-                                ticks: {
-                                    beginAtZero: true,
-                                    min: 0,
-                                    max: 3,
-                                    stepSize: 1,
-                                    suggestedMin: 0,
-                                    suggestedMax: 3,
-                                    callback: function() {return ""}
-                                }
-                            },
-                            legend: {
-                                labels: {
-                                    fontStyle: 'bold'
-                                },
-                                onClick : function() {}
-                            }
-                        },
-                        dataSeriesProperties : {
-                            results : {
-                                fill:true,
-                                backgroundColor:"rgba(87, 153, 199, 0.3)",
-                                borderColor:"#5799C7",
-                                pointBackgroundColor:"#5799C7",
-                                pointBorderColor:"#fff",
-                                pointHoverBackgroundColor:"#fff",
-                                pointHoverBorderColor:"rgba(220,220,220,1)"
-                            }
-                        }
-                    })
-                }),
-                edges.newChart({
-                    id: "leading",
-                    category: "radar",
-                    dataFunction: hord.dataFunction({chart: "leading", resource: form_selector}),
-                    dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: "Sector-leading Activity"}),
-                    renderer : edges.chartjs.newRadar({
-                        options: {
-                            scale: {
-                                ticks: {
-                                    beginAtZero: true,
-                                    min: 0,
-                                    max: 3,
-                                    stepSize: 1,
-                                    suggestedMin: 0,
-                                    suggestedMax: 3,
-                                    callback: function() {return ""}
-                                }
-                            },
-                            legend: {
-                                labels: {
-                                    fontStyle: 'bold'
-                                },
-                                onClick : function() {}
-                            }
-                        },
-                        dataSeriesProperties : {
-                            results : {
-                                fill:true,
-                                backgroundColor:"rgba(87, 153, 199, 0.3)",
-                                borderColor:"#5799C7",
-                                pointBackgroundColor:"#5799C7",
-                                pointBorderColor:"#fff",
-                                pointHoverBackgroundColor:"#fff",
-                                pointHoverBorderColor:"rgba(220,220,220,1)"
-                            }
-                        }
-                    })
-                }),
-                hord.newPersistentLink({
-                    id: "persistent-link",
-                    category: "radar",
-                    sourceChart: "main",
-                    resource: form_selector,
-                    editUrlTemplate: editUrlTemplate,
-                    viewUrlTemplate: viewUrlTemplate
-                })
-            ]
+            components: components
         });
         hord.DATA.edge = e;
 
@@ -342,6 +133,81 @@ var hord = {
             hord.cycle({form_selector: form_selector, update_date: true});
         });
         hord.cycle({form_selector: form_selector});
+    },
+
+    readConfig : function(params) {
+        var form_selector = params.form_selector;
+
+        var config = {};
+        var element = $("[data-hord=config]", form_selector);
+        config.charts = element.attr("data-hord-charts").split(",").map(function(x) { return x.trim() });
+
+        config.chart_info = {};
+        for (var i = 0; i < config.charts.length; i++) {
+            var chart = config.charts[i];
+            config.chart_info[chart] = {};
+            var chart_name = element.attr("data-hord-charts-" + chart + "-name");
+            if (chart_name) {
+                config.chart_info[chart].name = chart_name;
+            }
+            var chart_size = element.attr("data-hord-charts-" + chart + "-size");
+            if (chart_size) {
+                config.chart_info[chart].size = parseInt(chart_size);
+            }
+        }
+
+        return config;
+    },
+
+    _makeChartComponent : function(params) {
+        var chart_id = params.chart_id;
+        var form_selector = params.form_selector;
+        var config = params.config;
+        var download = edges.getParam(params.download, false);
+
+        var chart_name = edges.getParam(config.chart_info[chart_id].name, chart_id);
+        var chart_size = edges.getParam(config.chart_info[chart_id].size, 10);
+
+        return edges.newChart({
+            id: chart_id,
+            category: "radar",
+            dataFunction: hord.dataFunction({chart: chart_id, resource: form_selector}),
+            dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: chart_name}),
+            renderer : edges.chartjs.newRadar({
+                download: download,
+                downloadName: edges.safeId(chart_name),
+                options: {
+                    scale: {
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0,
+                            max: chart_size,
+                            stepSize: 1,
+                            suggestedMin: 0,
+                            suggestedMax: chart_size,
+                            callback: function() {return ""}
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            fontStyle: 'bold'
+                        },
+                        onClick : function() {}
+                    }
+                },
+                dataSeriesProperties : {
+                    results : {
+                        fill:true,
+                        backgroundColor:"rgba(87, 153, 199, 0.3)",
+                        borderColor:"#5799C7",
+                        pointBackgroundColor:"#5799C7",
+                        pointBorderColor:"#fff",
+                        pointHoverBackgroundColor:"#fff",
+                        pointHoverBorderColor:"rgba(220,220,220,1)"
+                    }
+                }
+            })
+        })
     },
 
     detectMode : function() {
@@ -516,10 +382,15 @@ var hord = {
             }
             var data = component.edge.resources[resource]["charts"][chart];
             var values = [];
-            for (var key in data) {
-                var name = data[key]["name"];
-                var val = data[key]["length"];
-                values.push({label: name, value: val});
+
+            // to be sure that the axes are always consistently ordered, take them from the list of axes
+            for (var i = 0; i < hord.DATA.axes.length; i++) {
+                var axis = hord.DATA.axes[i].id;
+                if (data.hasOwnProperty(axis)) {
+                    var name = data[axis]["name"];
+                    var val = data[axis]["length"];
+                    values.push({label: name, value: val});
+                }
             }
             return [{key: "results", values: values}];
         }
@@ -552,7 +423,7 @@ var hord = {
 
         var data = {};
         data["title"] = title;
-        data["charts"] = {}
+        data["charts"] = {};
         for (var i = 0; i < charts.length; i++) {
             var chart = charts[i];
             data["charts"][chart] = {};
