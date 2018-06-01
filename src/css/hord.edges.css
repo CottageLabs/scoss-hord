@@ -1,0 +1,32 @@
+#hord input[name=organisation] {
+    padding: 5px;
+}
+
+#hord h1 {
+    font-weight: bold;
+}
+
+#hord input[type=checkbox] {
+    margin-right: 10px;
+}
+
+#hord .answer {
+    margin-bottom: 5px;
+}
+
+#hord .section-report {
+    border-bottom: 2px dashed #cccccc;
+}
+
+#hord .edges-chartjs-radar-chart {
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 5px 5px 10px 0px #cccccc;
+    margin-bottom: 10px;
+}
+
+#hord .edges-chartjs-radar-download-container {
+    text-align: right;
+    margin-bottom: 30px;
+}

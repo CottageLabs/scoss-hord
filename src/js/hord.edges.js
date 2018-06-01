@@ -52,8 +52,15 @@ var hord = {
                                     max: 9,
                                     stepSize: 1,
                                     suggestedMin: 0,
-                                    suggestedMax: 9
+                                    suggestedMax: 9,
+                                    callback: function() {return ""}
                                 }
+                            },
+                            legend: {
+                                labels: {
+                                    fontStyle: 'bold'
+                                },
+                                onClick : function() {}
                             }
                         },
                         dataSeriesProperties : {
@@ -85,8 +92,15 @@ var hord = {
                                     max: 3,
                                     stepSize: 1,
                                     suggestedMin: 0,
-                                    suggestedMax: 3
+                                    suggestedMax: 3,
+                                    callback: function() {return ""}
                                 }
+                            },
+                            legend: {
+                                labels: {
+                                    fontStyle: 'bold'
+                                },
+                                onClick : function() {}
                             }
                         },
                         dataSeriesProperties : {
@@ -118,8 +132,15 @@ var hord = {
                                     max: 3,
                                     stepSize: 1,
                                     suggestedMin: 0,
-                                    suggestedMax: 3
+                                    suggestedMax: 3,
+                                    callback: function() {return ""}
                                 }
+                            },
+                            legend: {
+                                labels: {
+                                    fontStyle: 'bold'
+                                },
+                                onClick : function() {}
                             }
                         },
                         dataSeriesProperties : {
@@ -168,6 +189,20 @@ var hord = {
         var form_selector = "#hord";
         $(form_selector, working_selector).html(form);
 
+        // collapse all the section
+        $(".collapsible").hide();
+        $("[data-controller-id]").on("click", function(event) {
+            event.preventDefault();
+            var id = $(this).attr("data-controller-id");
+            var parent = $(this).parent();
+            if (parent.hasClass("closed")) {
+                parent.removeClass("closed").addClass("open");
+            } else {
+                parent.removeClass("open").addClass("closed");
+            }
+            $("[data-controller=" + id + "]").toggle();
+        });
+
         // is there any data for us to pull out of the url bar?
         hord.prePopulateFromURL({selector: form_selector, urlRegex: editUrlRegex});
 
@@ -190,8 +225,15 @@ var hord = {
                                     max: 9,
                                     stepSize: 1,
                                     suggestedMin: 0,
-                                    suggestedMax: 9
+                                    suggestedMax: 9,
+                                    callback: function() {return ""}
                                 }
+                            },
+                            legend: {
+                                labels: {
+                                    fontStyle: 'bold'
+                                },
+                                onClick : function() {}
                             }
                         },
                         dataSeriesProperties : {
@@ -221,8 +263,15 @@ var hord = {
                                     max: 3,
                                     stepSize: 1,
                                     suggestedMin: 0,
-                                    suggestedMax: 3
+                                    suggestedMax: 3,
+                                    callback: function() {return ""}
                                 }
+                            },
+                            legend: {
+                                labels: {
+                                    fontStyle: 'bold'
+                                },
+                                onClick : function() {}
                             }
                         },
                         dataSeriesProperties : {
@@ -252,8 +301,15 @@ var hord = {
                                     max: 3,
                                     stepSize: 1,
                                     suggestedMin: 0,
-                                    suggestedMax: 3
+                                    suggestedMax: 3,
+                                    callback: function() {return ""}
                                 }
+                            },
+                            legend: {
+                                labels: {
+                                    fontStyle: 'bold'
+                                },
+                                onClick : function() {}
                             }
                         },
                         dataSeriesProperties : {
@@ -290,7 +346,7 @@ var hord = {
 
     detectMode : function() {
         var urlParams = edges.getUrlParams();
-        return edges.getParam(urlParams.mode, "view");
+        return edges.getParam(urlParams.mode, "edit");
     },
 
     dataSeriesNameMap : function(params) {
