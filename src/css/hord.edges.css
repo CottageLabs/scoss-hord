@@ -30,3 +30,11 @@
     text-align: right;
     margin-bottom: 30px;
 }
+
+.section-manager-next {
+    float: right;
+}
+
+#hord section {
+    margin-bottom: 50px;
+}

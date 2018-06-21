@@ -37,12 +37,14 @@ var hord = {
         var components = [];
         for (var i = 0; i < config.charts.length; i++) {
             var chart_id = config.charts[i];
-            components.push(hord._makeChartComponent({
-                form_selector: form_selector,
-                chart_id: chart_id,
-                config: config,
-                download: true
-            }));
+            if ($.inArray("view", config.chart_info[chart_id].visibility) > -1) {
+                components.push(hord._makeChartComponent({
+                    form_selector: form_selector,
+                    chart_id: chart_id,
+                    config: config,
+                    download: true
+                }));
+            }
         }
 
         // make the Edge that will handle the viz
@@ -71,10 +73,12 @@ var hord = {
 
         var template = '<div class="row">\
             <div class="col-md-6">\
-                <div id="radar-diagrams"></div>\
+                <div class="section-navigation"></div>\
+                <div id="hord"></div>\
+                <div class="section-navigation"></div>\
             </div>\
             <div class="col-md-6">\
-                <div id="hord"></div>\
+                <div id="radar-diagrams"></div>\
             </div>\
         </div>';
         $(working_selector).html(template);
@@ -82,18 +86,9 @@ var hord = {
         var form_selector = "#hord";
         $(form_selector, working_selector).html(form);
 
-        // collapse all the sections
-        $(".collapsible").hide();
-        $("[data-controller-id]").on("click", function(event) {
-            event.preventDefault();
-            var id = $(this).attr("data-controller-id");
-            var parent = $(this).parent();
-            if (parent.hasClass("closed")) {
-                parent.removeClass("closed").addClass("open");
-            } else {
-                parent.removeClass("open").addClass("closed");
-            }
-            $("[data-controller=" + id + "]").toggle();
+        hord.newSectionManager({
+            form_selector: form_selector,
+            scrollSelector: working_selector
         });
 
         // is there any data for us to pull out of the url bar?
@@ -105,11 +100,13 @@ var hord = {
         var components = [];
         for (var i = 0; i < config.charts.length; i++) {
             var chart_id = config.charts[i];
-            components.push(hord._makeChartComponent({
-                form_selector: form_selector,
-                chart_id: chart_id,
-                config: config
-            }));
+            if ($.inArray("edit", config.chart_info[chart_id].visibility) > -1) {
+                components.push(hord._makeChartComponent({
+                    form_selector: form_selector,
+                    chart_id: chart_id,
+                    config: config
+                }));
+            }
         }
         components.push(hord.newPersistentLink({
             id: "persistent-link",
@@ -153,6 +150,10 @@ var hord = {
             var chart_size = element.attr("data-hord-charts-" + chart + "-size");
             if (chart_size) {
                 config.chart_info[chart].size = parseInt(chart_size);
+            }
+            var chart_visibility = element.attr("data-hord-charts-" + chart + "-visibility");
+            if (chart_visibility) {
+                config.chart_info[chart].visibility = chart_visibility.split(",").map(function(x) { return x.trim() });
             }
         }
 
@@ -363,10 +364,10 @@ var hord = {
             var editUrl = this.component.editUrlTemplate.replace("{summary}", s);
             var viewUrl = this.component.viewUrlTemplate.replace("{summary}", s);
 
-            var frag = "<p>To return to this form in its current state, use the following URL:</p>";
+            var frag = "<p>To return to this form and make changes, bookmark the following URL:</p>";
             frag += '<div style="word-wrap: break-word"><a href="' + editUrl + '">' + editUrl + "</a></div>";
             frag += "<br><br>";
-            frag += '<p>To view or share just the diagrams, use the following URL:</p>';
+            frag += '<p>To view or share the diagrams, bookmark the following URL:</p>';
             frag += '<div style="word-wrap: break-word"><a href="' + viewUrl + '">' + viewUrl + "</a></div>";
             this.component.context.html(frag);
         }
@@ -547,5 +548,115 @@ var hord = {
         }
 
         return {axisid : axisid, name : name, checked: checked, weights: weights};
+    },
+
+    newSectionManager : function(params) {
+        return edges.instantiate(hord.SectionManager, params);
+    },
+    SectionManager : function(params) {
+        this.form_selector = params.form_selector;
+        this.scrollSelector = params.scrollSelector;
+
+        this.context = false;
+        this.currentSection = 0;
+        this.maxSection = 0;
+        this.sections = false;
+
+        this.namespace = "section-manager";
+
+        this.init = function() {
+            this.context = $(this.form_selector);
+            this._drawNavigation();
+            this.sections = this.context.find("section");
+            this.maxSection = this.sections.length;
+            this._activateSection({section: 0});
+        };
+
+        this._activateSection = function(params) {
+            var active = params.section;
+
+            for (var i = 0; i < this.sections.length; i++) {
+                var section = $(this.sections[i]);
+                section.attr("data-section", String(i));
+                section.hide();
+                if (i === active) {
+                    section.show();
+                }
+            }
+
+            this.currentSection = active;
+
+            this._setPrevNext();
+        };
+
+        this._drawNavigation = function() {
+            var prevClasses = edges.css_classes(this.namespace, "prev");
+            var nextClasses = edges.css_classes(this.namespace, "next");
+
+            var frag = '<span class="' + prevClasses + '"></span>';
+            frag += '<span class="' + nextClasses + '"></span>';
+
+            var nav = $(".section-navigation").html(frag);
+        };
+
+        this._setPrevNext = function() {
+            var prev = this.currentSection - 1;
+            var next = this.currentSection + 1;
+
+            if (prev < 0) {
+                prev = false;
+            }
+            if (next >= this.maxSection) {
+                next = false;
+            }
+
+            var prevSelector = edges.css_class_selector(this.namespace, "prev");
+            var nextSelector = edges.css_class_selector(this.namespace, "next");
+
+            if (prev === false) {
+                var disabledClasses = edges.css_classes(this.namespace, "disabled");
+                var frag = '<span class="' + disabledClasses + ' btn btn-default" disabled>&laquo; previous section</span>';
+                $(prevSelector).html(frag);
+            } else {
+                var prevLink = edges.css_classes(this.namespace, "prev-link");
+                var frag = '<a href="#" class="' + prevLink + ' btn btn-info" data-target="' + String(prev) + '">&laquo; previous section</a>';
+                $(prevSelector).html(frag);
+
+                var prevLinkSelector = edges.css_class_selector(this.namespace, "prev-link");
+                edges.on(prevLinkSelector, "click", this, "linkClicked");
+            }
+
+            if (next === false) {
+                var disabledClasses = edges.css_classes(this.namespace, "disabled");
+                var frag = '<span class="' + disabledClasses + ' btn btn-default" disabled>next section &raquo;</span>';
+                $(nextSelector).html(frag);
+            } else {
+                var nextLink = edges.css_classes(this.namespace, "next-link");
+                var frag = '<a href="#" class="' + nextLink + ' btn btn-info" data-target="' + String(next) + '">next section &raquo;</a>';
+                $(nextSelector).html(frag);
+
+                var nextLinkSelector = edges.css_class_selector(this.namespace, "next-link");
+                edges.on(nextLinkSelector, "click", this, "linkClicked");
+            }
+        };
+
+        this.linkClicked = function(element) {
+            var target = $(element).attr("data-target");
+            this._activateSection({section: parseInt(target)});
+            this.doScroll();
+        };
+
+        this.doScroll = function () {
+            var offset = $(this.scrollSelector).offset().top;
+            var currentScroll = $("html,body").scrollTop();
+            if (currentScroll > offset) {
+                $("html,body").animate({
+                    scrollTop: $(this.scrollSelector).offset().top
+                }, 500);
+            }
+        };
+
+        // finally, init the section manager
+        this.init();
     }
 };

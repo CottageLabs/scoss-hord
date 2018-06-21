@@ -18,16 +18,21 @@
     <form data-hord="config" data-hord-charts="main,tailored,leading"
           data-hord-charts-main-name="RDM Service Provision"
           data-hord-charts-main-size="9"
+          data-hord-charts-main-visibility="edit,view"
           data-hord-charts-tailored-name="RDM Tailored Services"
           data-hord-charts-tailored-size="3"
+          data-hord-charts-tailored-visibility="view"
           data-hord-charts-leading-name="Sector-leading Activity"
-          data-hord-charts-leading-size="3">
+          data-hord-charts-leading-size="3"
+          data-hord-charts-leading-visibility="view">
 
-        <input type="text" data-hord="title" name="organisation" placeholder="enter your organisation name" style="width: 100%">
+        <section>
+            <h1>Your Organisation</h1>
+            <input type="text" data-hord="title" name="organisation" placeholder="enter your organisation name" style="width: 100%">
+        </section>
 
-        <h1 data-hord="axis" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored,leading">RDM policy and strategy</h1>
-
-        <div class="collapsible" data-controller="rdm-policy">
+        <section>
+            <h1 data-hord="axis" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored,leading">RDM policy and strategy</h1>
 
             <h2>Policy development</h2>
 
@@ -90,13 +95,10 @@
                 aims to be sector-leading and innovative
             </div>
 
-        </div>
-        <div class="section-report closed">X of Y selected <a href="#" data-controller-id="rdm-policy">open/close section</a></div>
+        </section>
 
-        <h1 data-hord="axis" data-hord-axisid="business-sustainability" data-hord-charts="main,tailored,leading">Business plans and sustainability</h1>
-
-        <a href="#" data-controller-id="business-sustainability">open/close</a>
-        <div class="collapsible" data-controller="business-sustainability">
+        <section>
+            <h1 data-hord="axis" data-hord-axisid="business-sustainability" data-hord-charts="main,tailored,leading">Business plans and sustainability</h1>
 
             <h2>Staff Investment</h2>
 
@@ -158,12 +160,10 @@
                 alongside standard support provision. (e.g. statistical modelling service or
                 data visualisation service).
             </div>
-        </div>
+        </section>
 
-        <h1 data-hord="axis" data-hord-axisid="advisory" data-hord-charts="main,tailored,leading">Advisory services</h1>
-
-        <a href="#" data-controller-id="advisory">open/close</a>
-        <div class="collapsible" data-controller="advisory">
+        <section>
+            <h1 data-hord="axis" data-hord-axisid="advisory" data-hord-charts="main,tailored,leading">Advisory services</h1>
 
             <div class="answer">
                 <input name="s" type="checkbox" data-hord="value" data-hord-axisid="advisory" data-hord-weight="3" data-hord-charts="main">
@@ -184,12 +184,10 @@
                 institution’s researchers and support staff. Guidance content is externally
                 referenced as sector best practice
             </div>
-        </div>
+        </section>
 
-        <h1 data-hord="axis" data-hord-axisid="training" data-hord-charts="main,tailored,leading">Training</h1>
-
-        <a href="#" data-controller-id="training">open/close</a>
-        <div class="collapsible" data-controller="training">
+        <section>
+            <h1 data-hord="axis" data-hord-axisid="training" data-hord-charts="main,tailored,leading">Training</h1>
 
             <h2>Online training</h2>
 
@@ -231,12 +229,10 @@
                 defined in standard role descriptions. Training is provided which
                 facilitates this development.
             </div>
-        </div>
+        </section>
 
-        <h1 data-hord="axis" data-hord-axisid="dmp" data-hord-charts="main,tailored,leading">Data management planning</h1>
-
-        <a href="#" data-controller-id="dmp">open/close</a>
-        <div class="collapsible" data-controller="dmp">
+        <section>
+            <h1 data-hord="axis" data-hord-axisid="dmp" data-hord-charts="main,tailored,leading">Data management planning</h1>
 
             <div class="answer">
                 <input name="ab" type="checkbox" data-hord="value" data-hord-axisid="dmp" data-hord-weight="3" data-hord-charts="main">
@@ -260,12 +256,10 @@
                 relevant institutional support services (e.g. exceptionally large
                 projected data volumes)
             </div>
-        </div>
+        </section>
 
-        <h1 data-hord="axis" data-hord-axisid="activedm" data-hord-charts="main,tailored,leading">Active data management</h1>
-
-        <a href="#" data-controller-id="activedm">open/close</a>
-        <div class="collapsible" data-controller="activedm">
+        <section>
+            <h1 data-hord="axis" data-hord-axisid="activedm" data-hord-charts="main,tailored,leading">Active data management</h1>
 
             <h2>Scalability and synchronisation</h2>
 
@@ -320,13 +314,10 @@
                 <input name="am" type="checkbox" data-hord="value" data-hord-axisid="activedm" data-hord-weight="1" data-hord-charts="main,leading">
                 The service provides researchers from across the institution with access to ISO 27001/2 or equivalently accredited facilities for analysis of shared sensitive data
             </div>
-        </div>
+        </section>
 
-        <h1 data-hord="axis" data-hord-axisid="appraisal" data-hord-charts="main,tailored,leading">Appraisal and risk assessment</h1>
-
-
-        <a href="#" data-controller-id="appraisal">open/close</a>
-        <div class="collapsible" data-controller="appraisal">
+        <section>
+            <h1 data-hord="axis" data-hord-axisid="appraisal" data-hord-charts="main,tailored,leading">Appraisal and risk assessment</h1>
 
             <h2>Data collection policy</h2>
 
@@ -378,12 +369,10 @@
                 <input name="av" type="checkbox" data-hord="value" data-hord-axisid="appraisal" data-hord-weight="1" data-hord-charts="main,leading">
                 Metadata on data and related research outputs is sufficiently well-structured and interoperable to enable added value to be extracted for service users’ needs
             </div>
-        </div>
+        </section>
 
-        <h1 data-hord="axis" data-hord-axisid="preservation" data-hord-charts="main,tailored,leading">Preservation</h1>
-
-        <a href="#" data-controller-id="preservation">open/close</a>
-        <div class="collapsible" data-controller="preservation">
+        <section>
+            <h1 data-hord="axis" data-hord-axisid="preservation" data-hord-charts="main,tailored,leading">Preservation</h1>
 
             <h2>Preservation planning and action</h2>
 
@@ -418,13 +407,10 @@
                 <input name="bb" type="checkbox" data-hord="value" data-hord-axisid="preservation" data-hord-weight="1.5" data-hord-charts="main,leading">
                 Service enables data &amp; metadata to be automatically distributed across multiple locations according to specific policy criteria
             </div>
-        </div>
+        </section>
 
-
-        <h1 data-hord="axis" data-hord-axisid="access" data-hord-charts="main,tailored,leading">Access and publishing</h1>
-
-        <a href="#" data-controller-id="access">open/close</a>
-        <div class="collapsible" data-controller="access">
+        <section>
+            <h1 data-hord="axis" data-hord-axisid="access" data-hord-charts="main,tailored,leading">Access and publishing</h1>
 
             <h2>Monitoring locally produced datasets</h2>
 
@@ -476,13 +462,10 @@
                 <input name="bk" type="checkbox" data-hord="value" data-hord-axisid="access" data-hord-weight="1" data-hord-charts="main,leading">
                 Service commits to maintain or enhance value through bespoke action on individual collections.
             </div>
-        </div>
+        </section>
 
-
-        <h1 data-hord="axis" data-hord-axisid="discovery" data-hord-charts="main,tailored,leading">Discovery</h1>
-
-        <a href="#" data-controller-id="discovery">open/close</a>
-        <div class="collapsible" data-controller="discovery">
+        <section>
+            <h1 data-hord="axis" data-hord-axisid="discovery" data-hord-charts="main,tailored,leading">Discovery</h1>
 
             <h2>Metadata cataloguing scope</h2>
 
@@ -500,19 +483,21 @@
                 <input name="bn" type="checkbox" data-hord="value" data-hord-axisid="discovery" data-hord-weight="3" data-hord-charts="main,leading">
                 Service catalogues metadata to enhance potential dataset reuse according to sectorleading standards, or fulfil domain-specific purposes
             </div>
-        </div>
+        </section>
 
     </form>
-
-    <br><br>
-    <p>For more information, see <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
-
-    <p>To feed back on how this is or is not working for you, please mail us <a href="mailto:info@sparceurope.org">info@sparceurope.org</a></p>
 
 </div>
 <div class="container"><div class="content">
     <div id="hord"></div>
+    <div>
+        <br><br>
+        <p>For more information, see <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
+
+        <p>To feed back on how this is or is not working for you, please mail us <a href="mailto:info@sparceurope.org">info@sparceurope.org</a></p>
+    </div>
 </div></div>
+
 
 <br><br>
 <p><strong>SPARC Page Footer Here</strong></p>
