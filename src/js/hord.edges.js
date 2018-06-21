@@ -370,6 +370,10 @@ var hord = {
             frag += '<p>To view or share the diagrams, bookmark the following URL:</p>';
             frag += '<div style="word-wrap: break-word"><a href="' + viewUrl + '">' + viewUrl + "</a></div>";
             this.component.context.html(frag);
+
+            if (window.history.replaceState) {
+                window.history.replaceState({}, null, editUrl);
+            }
         }
     },
 
