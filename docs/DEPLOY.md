@@ -528,7 +528,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
     
     <div class="container-fluid"><div class="content">
         <div id="hord"></div>
-        <div>
+        <div class="more-information">
             <br><br>
             <p>For more information, see <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
     

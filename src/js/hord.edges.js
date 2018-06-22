@@ -366,7 +366,6 @@ var hord = {
 
             var frag = "<p>To return to this form and make changes, bookmark the following URL: ";
             frag += '<span style="word-wrap: break-word"><a href="' + editUrl + '">' + editUrl + "</a></span></p>";
-            frag += "<br><br>";
             frag += '<p>To view or share the diagrams, bookmark the following URL: ';
             frag += '<span style="word-wrap: break-word"><a href="' + viewUrl + '">' + viewUrl + "</a></span></p>";
             this.component.context.html(frag);
