@@ -48,7 +48,7 @@ A full page which implements the questionnaire looks as follows:
          </form>
      </div>
     
-    <div class="container"><div class="content">
+    <div class="container-fluid"><div class="content">
         <div id="hord"></div>
         <div>
             <br><br>
@@ -64,6 +64,7 @@ A full page which implements the questionnaire looks as follows:
     <!-- this is the javascript which triggers the application on the page -->
     <script type="application/javascript">
         jQuery(document).ready(function($) {
+            window.$||(window.$=jQuery);
             hord.init({
                 source_selector: "#hord-form",
                 working_selector: "#hord",
@@ -127,7 +128,7 @@ following HTML fragment:
          </form>
      </div>
     
-    <div class="container"><div class="content">
+    <div class="container-fluid"><div class="content">
         <div id="hord"></div>
         <div>
             <br><br>
@@ -139,6 +140,7 @@ following HTML fragment:
     
     <script type="application/javascript">
         jQuery(document).ready(function($) {
+            window.$||(window.$=jQuery);
             hord.init({
                 source_selector: "#hord-form",
                 working_selector: "#hord",

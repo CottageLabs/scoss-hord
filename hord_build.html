@@ -488,7 +488,7 @@
     </form>
 
 </div>
-<div class="container"><div class="content">
+<div class="container-fluid"><div class="content">
     <div id="hord"></div>
     <div>
         <br><br>
@@ -509,6 +509,7 @@
 <!-- this is the javascript which triggers the application on the page -->
 <script type="application/javascript">
     jQuery(document).ready(function($) {
+        window.$||(window.$=jQuery);
         hord.init({
             source_selector: "#hord-form",
             working_selector: "#hord",
