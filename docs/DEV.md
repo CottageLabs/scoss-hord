@@ -19,10 +19,5 @@ in the DEPLOY.md file.
 
 ## Build
 
-To compile the SCOSS source, Edges components, and all transitive dependencies,
+To compile the HORD source, Edges components, and all transitive dependencies,
 see BUILD.md
-
-
-## Entry Points
-
-TODO
