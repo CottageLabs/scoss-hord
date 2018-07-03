@@ -522,6 +522,11 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                     <input name="bn" type="checkbox" data-hord="value" data-hord-axisid="discovery" data-hord-weight="3" data-hord-charts="main,leading">Service catalogues metadata to enhance potential dataset reuse according to sector leading standards, or fulfil domain-specific purposes
                 </div>
             </section>
+            
+            <section>
+                <h1>You're done!</h1>
+                <div data-hord="urls" id="hord-urls"></div>
+            </section>
         
         </form>    
     </div>

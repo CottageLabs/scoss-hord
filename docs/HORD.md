@@ -358,3 +358,18 @@ The following example would result in a two page form.
 
 Note that the paging is done in JavaScript, there are not multiple HTML
 pages involved.
+
+
+## Displaying URLs in the form paging
+
+If you want the URLs to the edit and view pages to appear in the paged
+form (for example, at the end), then include the following section
+in your form HTML definition:
+
+```html
+<section>
+    <h1>You're done!</h1>
+    <div data-hord="urls" id="hord-urls"></div>
+</section>
+```
+
