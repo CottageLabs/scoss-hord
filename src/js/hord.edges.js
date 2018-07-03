@@ -114,7 +114,8 @@ var hord = {
             sourceChart: "main",
             resource: form_selector,
             editUrlTemplate: editUrlTemplate,
-            viewUrlTemplate: viewUrlTemplate
+            viewUrlTemplate: viewUrlTemplate,
+            manageUrl: true
         }));
         
         // make the Edge that will handle the viz
@@ -124,6 +125,25 @@ var hord = {
             components: components
         });
         hord.DATA.edge = e;
+
+        var element = $("[data-hord=urls]");
+        var urlsId = element.attr("id");
+        element.html('<div id="persistent-link-in-form"></div>');
+
+        var e2 = edges.newEdge({
+            selector: "#" + urlsId,
+            components: [
+                hord.newPersistentLink({
+                    id: "persistent-link-in-form",
+                    sourceChart: "main",
+                    resource: form_selector,
+                    editUrlTemplate: editUrlTemplate,
+                    viewUrlTemplate: viewUrlTemplate,
+                    manageUrl: false
+                })
+            ]
+        });
+        hord.DATA.urls_edge = e2;
 
         // bind a readForm to change, and then read the form initially too
         $('[data-hord]', form_selector).on('change', function(event) {
@@ -289,6 +309,7 @@ var hord = {
         }
 
         hord.DATA.edge.cycle();
+        hord.DATA.urls_edge.cycle();
     },
 
     newRadarDiagramsTemplate : function(params) {
@@ -323,7 +344,12 @@ var hord = {
         this.resource = params.resource;
         this.editUrlTemplate = params.editUrlTemplate;
         this.viewUrlTemplate = params.viewUrlTemplate;
-        this.renderer = hord.newPersistentLinkRenderer();
+        this.manageUrl = params.manageUrl;
+
+        this.renderer = hord.newPersistentLinkRenderer({
+            manageUrl: this.manageUrl
+        });
+
 
         this.summary = "";
 
@@ -358,6 +384,7 @@ var hord = {
         return edges.instantiate(hord.PersistentLinkRenderer, params, edges.newRenderer);
     },
     PersistentLinkRenderer : function(params) {
+        this.manageUrl = params.manageUrl;
         this.namespace = "hord-persistent-link";
         this.draw = function() {
             var s = btoa(this.component.summary);
@@ -370,7 +397,7 @@ var hord = {
             frag += '<span style="word-wrap: break-word"><a href="' + viewUrl + '">' + viewUrl + "</a></span></p>";
             this.component.context.html(frag);
 
-            if (window.history.replaceState) {
+            if (this.manageUrl && window.history.replaceState) {
                 window.history.replaceState({}, null, editUrl);
             }
         }
@@ -443,12 +470,13 @@ var hord = {
             }
         }
 
-        hord.DATA.edge.resources[selector] = data;
-
         hord.DATA.axes = axes;
         hord.DATA.values = values;
         hord.DATA.charts = charts;
         hord.DATA.data = data;
+
+        hord.DATA.edge.resources[selector] = hord.DATA.data;
+        hord.DATA.urls_edge.resources[selector] = hord.DATA.data;
     },
 
     _getLength : function(params) {
@@ -559,6 +587,7 @@ var hord = {
     SectionManager : function(params) {
         this.form_selector = params.form_selector;
         this.scrollSelector = params.scrollSelector;
+        this.lastButtonIsFinish = edges.getParam(params.lastButtonIsFinish, true);
 
         this.context = false;
         this.currentSection = 0;
@@ -617,9 +646,9 @@ var hord = {
             var nextSelector = edges.css_class_selector(this.namespace, "next");
 
             if (prev === false) {
-                var disabledClasses = edges.css_classes(this.namespace, "disabled");
-                var frag = '<span class="' + disabledClasses + ' btn btn-default" disabled>&laquo; previous section</span>';
-                $(prevSelector).html(frag);
+                //var disabledClasses = edges.css_classes(this.namespace, "disabled");
+                //var frag = '<span class="' + disabledClasses + ' btn btn-default" disabled>start</span>';
+                $(prevSelector).html("");
             } else {
                 var prevLink = edges.css_classes(this.namespace, "prev-link");
                 var frag = '<a href="#" class="' + prevLink + ' btn btn-info" data-target="' + String(prev) + '">&laquo; previous section</a>';
@@ -630,12 +659,16 @@ var hord = {
             }
 
             if (next === false) {
-                var disabledClasses = edges.css_classes(this.namespace, "disabled");
-                var frag = '<span class="' + disabledClasses + ' btn btn-default" disabled>next section &raquo;</span>';
-                $(nextSelector).html(frag);
+                //var disabledClasses = edges.css_classes(this.namespace, "disabled");
+                //var frag = '<span class="' + disabledClasses + ' btn btn-default" disabled>next section &raquo;</span>';
+                $(nextSelector).html("");
             } else {
                 var nextLink = edges.css_classes(this.namespace, "next-link");
-                var frag = '<a href="#" class="' + nextLink + ' btn btn-info" data-target="' + String(next) + '">next section &raquo;</a>';
+                var text = "next section &raquo;";
+                if (this.lastButtonIsFinish && next === this.maxSection - 1) {
+                    text = "finish &raquo;";
+                }
+                var frag = '<a href="#" class="' + nextLink + ' btn btn-info" data-target="' + String(next) + '">' + text + '</a>';
                 $(nextSelector).html(frag);
 
                 var nextLinkSelector = edges.css_class_selector(this.namespace, "next-link");

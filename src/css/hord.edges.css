@@ -31,6 +31,10 @@
     margin-bottom: 30px;
 }
 
+.section-navigation {
+    overflow: hidden;
+}
+
 .section-manager-next {
     float: right;
 }
