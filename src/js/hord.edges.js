@@ -67,6 +67,8 @@ var hord = {
         var viewUrlTemplate = params.viewUrlTemplate;
         var viewUrlRegex = params.viewUrlRegex;
 
+        var scrollOffset = edges.getParam(params.scrollOffset, 0);
+
         // since we're editing the form, show it
         var form = $(source_selector).html();
         $(source_selector).html("");
@@ -88,7 +90,8 @@ var hord = {
 
         hord.newSectionManager({
             form_selector: form_selector,
-            scrollSelector: working_selector
+            scrollSelector: working_selector,
+            scrollOffset: scrollOffset
         });
 
         // is there any data for us to pull out of the url bar?
@@ -592,6 +595,7 @@ var hord = {
     SectionManager : function(params) {
         this.form_selector = params.form_selector;
         this.scrollSelector = params.scrollSelector;
+        this.scrollOffset = edges.getParam(params.scrollOffset, 0);
         this.lastButtonIsFinish = edges.getParam(params.lastButtonIsFinish, true);
 
         this.context = false;
@@ -692,7 +696,7 @@ var hord = {
             var currentScroll = $("html,body").scrollTop();
             if (currentScroll > offset) {
                 $("html,body").animate({
-                    scrollTop: $(this.scrollSelector).offset().top
+                    scrollTop: $(this.scrollSelector).offset().top - this.scrollOffset
                 }, 500);
             }
         };
