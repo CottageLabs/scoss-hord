@@ -692,11 +692,11 @@ var hord = {
         };
 
         this.doScroll = function () {
-            var offset = $(this.scrollSelector).offset().top;
+            var offset = $(this.scrollSelector).offset().top - this.scrollOffset;
             var currentScroll = $("html,body").scrollTop();
             if (currentScroll > offset) {
                 $("html,body").animate({
-                    scrollTop: $(this.scrollSelector).offset().top - this.scrollOffset
+                    scrollTop: offset
                 }, 500);
             }
         };
