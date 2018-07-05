@@ -206,7 +206,8 @@ var hord = {
                             stepSize: 1,
                             suggestedMin: 0,
                             suggestedMax: chart_size,
-                            callback: function() {return ""}
+                            callback: function() {return ""},
+                            backdropColor: "rgba(0, 0, 0, 0)"
                         }
                     },
                     legend: {
@@ -309,7 +310,9 @@ var hord = {
         }
 
         hord.DATA.edge.cycle();
-        hord.DATA.urls_edge.cycle();
+        if (hord.DATA.hasOwnProperty("urls_edge")) {
+            hord.DATA.urls_edge.cycle();
+        }
     },
 
     newRadarDiagramsTemplate : function(params) {
@@ -476,7 +479,9 @@ var hord = {
         hord.DATA.data = data;
 
         hord.DATA.edge.resources[selector] = hord.DATA.data;
-        hord.DATA.urls_edge.resources[selector] = hord.DATA.data;
+        if (hord.DATA.hasOwnProperty("urls_edge")) {
+            hord.DATA.urls_edge.resources[selector] = hord.DATA.data;
+        }
     },
 
     _getLength : function(params) {
