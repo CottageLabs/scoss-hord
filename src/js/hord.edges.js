@@ -433,7 +433,7 @@ var hord = {
                 for (var i = 0; i < this.component.chartInfo.length; i++) {
                     var info = this.component.chartInfo[i];
                     var hashUrl = viewUrl + "#" + edges.safeId(info.id);
-                    frag += '<p><strong>' + info.title + '</strong> - ' + info.description + '<br><a href="' + hashUrl + '">' + hashUrl + '</a></p>';
+                    frag += '<p><strong>' + info.title + '</strong> - ' + info.description + '<br><span style="word-wrap: break-word"><a href="' + hashUrl + '">' + hashUrl + '</a></span></p>';
                 }
             }
 

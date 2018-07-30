@@ -227,7 +227,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                 </div>
         
                 <div class="answer">
-                    <input name="f" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,leading">Policies are promoted by the institution through channels designed to engage with staff, student and researcher groups’ specific interests.
+                    <input name="f" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,leading">Policies are promoted by the institution through channels designed to engage with staff, student and researcher groups' specific interests.
                 </div>
         
                 <h2>RDM implementation roadmap</h2>
@@ -237,7 +237,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                 </div>
         
                 <div class="answer">
-                    <input name="h" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,tailored">Roadmap is informed by the institution’s strategies and its researchers' priorities.
+                    <input name="h" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,tailored">Roadmap is informed by the institution's strategies and its researchers' priorities.
                 </div>
         
                 <div class="answer">
@@ -304,7 +304,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                 </div>
         
                 <div class="answer">
-                    <input name="u" type="checkbox" data-hord="value" data-hord-axisid="advisory" data-hord-weight="3" data-hord-charts="main,leading">Guidance is significantly tailored to support the specific needs of the institution’s researchers and support staff. Guidance content is externally referenced as sector best practice
+                    <input name="u" type="checkbox" data-hord="value" data-hord-axisid="advisory" data-hord-weight="3" data-hord-charts="main,leading">Guidance is significantly tailored to support the specific needs of the institution's researchers and support staff. Guidance content is externally referenced as sector best practice
                 </div>
             </section>
         
@@ -332,7 +332,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                 </div>
         
                 <div class="answer">
-                    <input name="z" type="checkbox" data-hord="value" data-hord-axisid="training" data-hord-weight="1.5" data-hord-charts="main,tailored">Regular, structured face to face RDM courses are available to all. Training objectives are aligned with the objectives of the institution’s RDM strategy.
+                    <input name="z" type="checkbox" data-hord="value" data-hord-axisid="training" data-hord-weight="1.5" data-hord-charts="main,tailored">Regular, structured face to face RDM courses are available to all. Training objectives are aligned with the objectives of the institution's RDM strategy.
                 </div>
         
                 <div class="answer">
@@ -362,7 +362,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                 <h2>Scalability and synchronisation</h2>
         
                 <div class="answer">
-                    <input name="ae" type="checkbox" data-hord="value" data-hord-axisid="activedm" data-hord-weight="1" data-hord-charts="main">The service provides researchers with managed access to networked storage, from multiple devices, of sufficient capacity and performance to satisfy most of the organisation’s projects.
+                    <input name="ae" type="checkbox" data-hord="value" data-hord-axisid="activedm" data-hord-weight="1" data-hord-charts="main">The service provides researchers with managed access to networked storage, from multiple devices, of sufficient capacity and performance to satisfy most of the organisation's projects.
                 </div>
         
                 <div class="answer">
@@ -444,7 +444,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                 </div>
         
                 <div class="answer">
-                    <input name="av" type="checkbox" data-hord="value" data-hord-axisid="appraisal" data-hord-weight="1" data-hord-charts="main,leading">Metadata on data and related research outputs is sufficiently well-structured and interoperable to enable added value to be extracted for service users’ needs
+                    <input name="av" type="checkbox" data-hord="value" data-hord-axisid="appraisal" data-hord-weight="1" data-hord-charts="main,leading">Metadata on data and related research outputs is sufficiently well-structured and interoperable to enable added value to be extracted for service users' needs
                 </div>
             </section>
         
@@ -486,7 +486,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                 <h2>Monitoring locally produced datasets</h2>
         
                 <div class="answer">
-                    <input name="bc" type="checkbox" data-hord="value" data-hord-axisid="access" data-hord-weight="1" data-hord-charts="main">Information is gathered from research projects to enable compliance with funders’ requirements for research data discoverability.
+                    <input name="bc" type="checkbox" data-hord="value" data-hord-axisid="access" data-hord-weight="1" data-hord-charts="main">Information is gathered from research projects to enable compliance with funders' requirements for research data discoverability.
                 </div>
         
                 <div class="answer">
@@ -532,7 +532,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                 <h2>Metadata cataloguing scope</h2>
         
                 <div class="answer">
-                    <input name="bl" type="checkbox" data-hord="value" data-hord-axisid="discovery" data-hord-weight="3" data-hord-charts="main">Service catalogues metadata for the organisation’s publicly funded datasets according to funder expectations that they are discoverable, citable, and linked to related content
+                    <input name="bl" type="checkbox" data-hord="value" data-hord-axisid="discovery" data-hord-weight="3" data-hord-charts="main">Service catalogues metadata for the organisation's publicly funded datasets according to funder expectations that they are discoverable, citable, and linked to related content
                 </div>
         
                 <div class="answer">
