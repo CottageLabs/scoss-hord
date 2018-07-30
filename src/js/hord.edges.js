@@ -22,7 +22,7 @@ var hord = {
         var viewUrlRegex = params.viewUrlRegex;
 
         var template = '<div class="row">\
-            <div class="col-sm-12 col-md-8 col-md-offset-2">\
+            <div class="col-sm-12 col-md-6 col-md-offset-3">\
                 <div id="radar-diagrams"></div>\
             </div>\
         </div>';
@@ -41,6 +41,9 @@ var hord = {
                 components.push(hord._makeChartComponent({
                     form_selector: form_selector,
                     chart_id: chart_id,
+                    title: config.chart_info[chart_id].name,
+                    description: config.chart_info[chart_id].description,
+                    anchor: chart_id,
                     config: config,
                     download: true
                 }));
@@ -142,6 +145,7 @@ var hord = {
                     resource: form_selector,
                     editUrlTemplate: editUrlTemplate,
                     viewUrlTemplate: viewUrlTemplate,
+                    listCharts: true,
                     manageUrl: false
                 })
             ]
@@ -178,6 +182,10 @@ var hord = {
             if (chart_visibility) {
                 config.chart_info[chart].visibility = chart_visibility.split(",").map(function(x) { return x.trim() });
             }
+            var chart_description = element.attr("data-hord-charts-" + chart + "-description");
+            if (chart_description) {
+                config.chart_info[chart].description = chart_description;
+            }
         }
 
         return config;
@@ -188,6 +196,9 @@ var hord = {
         var form_selector = params.form_selector;
         var config = params.config;
         var download = edges.getParam(params.download, false);
+        var title = edges.getParam(params.title, false);
+        var desc = edges.getParam(params.description, false);
+        var anchor = edges.getParam(params.anchor, false);
 
         var chart_name = edges.getParam(config.chart_info[chart_id].name, chart_id);
         var chart_size = edges.getParam(config.chart_info[chart_id].size, 10);
@@ -198,6 +209,9 @@ var hord = {
             dataFunction: hord.dataFunction({chart: chart_id, resource: form_selector}),
             dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: chart_name}),
             renderer : edges.chartjs.newRadar({
+                title: title,
+                description: desc,
+                anchor: anchor,
                 download: download,
                 downloadName: edges.safeId(chart_name),
                 options: {
@@ -351,6 +365,7 @@ var hord = {
         this.editUrlTemplate = params.editUrlTemplate;
         this.viewUrlTemplate = params.viewUrlTemplate;
         this.manageUrl = params.manageUrl;
+        this.listCharts = edges.getParam(params.listCharts, false);
 
         this.renderer = hord.newPersistentLinkRenderer({
             manageUrl: this.manageUrl
@@ -358,6 +373,8 @@ var hord = {
 
 
         this.summary = "";
+
+        this.chartInfo = [];
 
         this.synchronise = function() {
             this.summary = "";
@@ -383,6 +400,15 @@ var hord = {
                 }
             }
             this.summary += answers;
+
+            this.chartInfo = [];
+            if (this.listCharts) {
+                for (var i = 0; i < hord.DATA.config.charts.length; i++) {
+                    var chart_id = hord.DATA.config.charts[i];
+                    var info = hord.DATA.config.chart_info[chart_id];
+                    this.chartInfo.push({id: chart_id, title: info.name, description: info.description});
+                }
+            }
         };
     },
 
@@ -401,6 +427,17 @@ var hord = {
             frag += '<span style="word-wrap: break-word"><a href="' + editUrl + '">' + editUrl + "</a></span></p>";
             frag += '<p>To view or share the diagrams, bookmark the following URL: ';
             frag += '<span style="word-wrap: break-word"><a href="' + viewUrl + '">' + viewUrl + "</a></span></p>";
+
+            if (this.component.listCharts) {
+                frag += '<p>The following charts are available for you:</p>';
+                for (var i = 0; i < this.component.chartInfo.length; i++) {
+                    var info = this.component.chartInfo[i];
+                    var hashUrl = viewUrl + "#" + edges.safeId(info.id);
+                    frag += '<p><strong>' + info.title + '</strong> - ' + info.description + '<br><a href="' + hashUrl + '">' + hashUrl + '</a></p>';
+                }
+            }
+
+
             this.component.context.html(frag);
 
             if (this.manageUrl && window.history.replaceState) {

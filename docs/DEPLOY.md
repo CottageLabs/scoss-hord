@@ -23,7 +23,7 @@ A full page which implements the questionnaire looks as follows:
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>HORD Testing Site - Questionnaire</title>
+        <title>Evaluate your RDM Offering</title>
     
         <link rel="stylesheet" href="/release/hord.dep.css">
         <link rel="stylesheet" href="/release/hord.min.css">
@@ -31,17 +31,22 @@ A full page which implements the questionnaire looks as follows:
     </head>
     <body>
     
+    <h1>Evaluate your RDM Offering</h1>
+    
     <div id="hord-form" style="display:none">
         <form data-hord="config" data-hord-charts="main,tailored,leading"
-              data-hord-charts-main-name="RDM Service Provision"
+              data-hord-charts-main-name="RDM Offering"
               data-hord-charts-main-size="9"
               data-hord-charts-main-visibility="edit,view"
+              data-hord-charts-main-description="This graph shows the range of RDM policy, support and services you provide."
               data-hord-charts-tailored-name="RDM Tailored Services"
               data-hord-charts-tailored-size="3"
               data-hord-charts-tailored-visibility="view"
-              data-hord-charts-leading-name="Sector-leading Activity"
+              data-hord-charts-tailored-description="This graph shows how far you tailor RDM to the needs of your users."
+              data-hord-charts-leading-name="Sector-Leading RDM Activity"
               data-hord-charts-leading-size="3"
-              data-hord-charts-leading-visibility="view">
+              data-hord-charts-leading-visibility="view"
+              data-hord-charts-leading-description="This graph shows how much of an innovator you are in this field.">
          
             ...
          
@@ -55,6 +60,9 @@ A full page which implements the questionnaire looks as follows:
             <p>For more information, see <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
     
             <p>To feed back on how this is or is not working for you, please mail us <a href="mailto:info@sparceurope.org">info@sparceurope.org</a></p>
+        
+            <p>This service has been based on the work of DCC and its RISE framework. For more information, see 
+                        <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
         </div>
     </div></div>
 
@@ -71,7 +79,7 @@ A full page which implements the questionnaire looks as follows:
                 editUrlTemplate: "/hord_build.html?mode=edit&d={summary}",
                 editUrlRegex: new RegExp(".+&d=(.+)"),
                 viewUrlTemplate: "/hord_build.html?mode=view&d={summary}",
-                viewUrlRegex: new RegExp(".+&d=(.+)")
+                viewUrlRegex: new RegExp(".+&d=(^#+)")
             })
         });
     </script>
@@ -111,18 +119,23 @@ You should then create an individual page for the questionnaire, and on that pag
 following HTML fragment:
 
 
+    <h1>Evaluate your RDM Offering</h1>
+    
     <div id="hord-form" style="display:none">
         <form data-hord="config" data-hord-charts="main,tailored,leading"
-              data-hord-charts-main-name="RDM Service Provision"
+              data-hord-charts-main-name="RDM Offering"
               data-hord-charts-main-size="9"
               data-hord-charts-main-visibility="edit,view"
+              data-hord-charts-main-description="This graph shows the range of RDM policy, support and services you provide."
               data-hord-charts-tailored-name="RDM Tailored Services"
               data-hord-charts-tailored-size="3"
               data-hord-charts-tailored-visibility="view"
-              data-hord-charts-leading-name="Sector-leading Activity"
+              data-hord-charts-tailored-description="This graph shows how far you tailor RDM to the needs of your users."
+              data-hord-charts-leading-name="Sector-Leading RDM Activity"
               data-hord-charts-leading-size="3"
-              data-hord-charts-leading-visibility="view">
-         
+              data-hord-charts-leading-visibility="view"
+              data-hord-charts-leading-description="This graph shows how much of an innovator you are in this field.">
+              
             ...
          
          </form>
@@ -135,6 +148,9 @@ following HTML fragment:
             <p>For more information, see <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
     
             <p>To feed back on how this is or is not working for you, please mail us <a href="mailto:info@sparceurope.org">info@sparceurope.org</a></p>
+        
+            <p>This service has been based on the work of DCC and its RISE framework. For more information, see 
+                        <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
         </div>
     </div></div>
     
@@ -147,7 +163,7 @@ following HTML fragment:
                 editUrlTemplate: "/hord_build.html?mode=edit&d={summary}",
                 editUrlRegex: new RegExp(".+&d=(.+)"),
                 viewUrlTemplate: "/hord_build.html?mode=view&d={summary}",
-                viewUrlRegex: new RegExp(".+&d=(.+)")
+                viewUrlRegex: new RegExp(".+&d=(^#+)")
             })
         });
     </script>
@@ -161,17 +177,22 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
     <link rel="stylesheet" href="http://sparceurope.org/test2017/wp-content/uploads/2018/06/hord.dep_.css">
     <link rel="stylesheet" href="http://sparceurope.org/test2017/wp-content/uploads/2018/06/hord.min_.css">
     
+    <h1>Evaluate your RDM Offering</h1>
+    
     <div id="hord-form" style="display:none">
         <form data-hord="config" data-hord-charts="main,tailored,leading"
-              data-hord-charts-main-name="RDM Service Provision"
+              data-hord-charts-main-name="RDM Offering"
               data-hord-charts-main-size="9"
               data-hord-charts-main-visibility="edit,view"
+              data-hord-charts-main-description="This graph shows the range of RDM policy, support and services you provide."
               data-hord-charts-tailored-name="RDM Tailored Services"
               data-hord-charts-tailored-size="3"
               data-hord-charts-tailored-visibility="view"
-              data-hord-charts-leading-name="Sector-leading Activity"
+              data-hord-charts-tailored-description="This graph shows how far you tailor RDM to the needs of your users."
+              data-hord-charts-leading-name="Sector-Leading RDM Activity"
               data-hord-charts-leading-size="3"
-              data-hord-charts-leading-visibility="view">
+              data-hord-charts-leading-visibility="view"
+              data-hord-charts-leading-description="This graph shows how much of an innovator you are in this field.">
         
             <section>
                 <h1>Your Organisation</h1>
@@ -522,13 +543,13 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                     <input name="bn" type="checkbox" data-hord="value" data-hord-axisid="discovery" data-hord-weight="3" data-hord-charts="main,leading">Service catalogues metadata to enhance potential dataset reuse according to sector leading standards, or fulfil domain-specific purposes
                 </div>
             </section>
-            
+        
             <section>
                 <h1>You're done!</h1>
                 <div data-hord="urls" id="hord-urls"></div>
             </section>
         
-        </form>    
+        </form>
     </div>
     
     <div class="container-fluid"><div class="content">
@@ -538,6 +559,9 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
             <p>For more information, see <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
     
             <p>To feed back on how this is or is not working for you, please mail us <a href="mailto:info@sparceurope.org">info@sparceurope.org</a></p>
+        
+            <p>This service has been based on the work of DCC and its RISE framework. For more information, see 
+                        <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
         </div>
     </div></div>
     
@@ -553,7 +577,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                 editUrlTemplate: "/hord?mode=edit&d={summary}",
                 editUrlRegex: new RegExp(".+&d=(.+)"),
                 viewUrlTemplate: "/hord?mode=view&d={summary}",
-                viewUrlRegex: new RegExp(".+&d=(.+)")
+                viewUrlRegex: new RegExp(".+&d=(^#+)")
             })
         });
     </script>
