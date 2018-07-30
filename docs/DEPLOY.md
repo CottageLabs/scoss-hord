@@ -79,7 +79,7 @@ A full page which implements the questionnaire looks as follows:
                 editUrlTemplate: "/hord_build.html?mode=edit&d={summary}",
                 editUrlRegex: new RegExp(".+&d=(.+)"),
                 viewUrlTemplate: "/hord_build.html?mode=view&d={summary}",
-                viewUrlRegex: new RegExp(".+&d=(^#+)")
+                viewUrlRegex: new RegExp(".+&d=([^#]+)")
             })
         });
     </script>
@@ -163,7 +163,7 @@ following HTML fragment:
                 editUrlTemplate: "/hord_build.html?mode=edit&d={summary}",
                 editUrlRegex: new RegExp(".+&d=(.+)"),
                 viewUrlTemplate: "/hord_build.html?mode=view&d={summary}",
-                viewUrlRegex: new RegExp(".+&d=(^#+)")
+                viewUrlRegex: new RegExp(".+&d=([^#]+)")
             })
         });
     </script>
@@ -577,7 +577,7 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
                 editUrlTemplate: "/hord?mode=edit&d={summary}",
                 editUrlRegex: new RegExp(".+&d=(.+)"),
                 viewUrlTemplate: "/hord?mode=view&d={summary}",
-                viewUrlRegex: new RegExp(".+&d=(^#+)")
+                viewUrlRegex: new RegExp(".+&d=([^#]+)")
             })
         });
     </script>
