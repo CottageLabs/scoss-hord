@@ -43,6 +43,7 @@ var hord = {
                     chart_id: chart_id,
                     title: config.chart_info[chart_id].name,
                     description: config.chart_info[chart_id].description,
+                    figureLabel: "Developed by SPARC Europe in collaboration with DCC",
                     anchor: chart_id,
                     config: config,
                     download: true
@@ -199,6 +200,7 @@ var hord = {
         var title = edges.getParam(params.title, false);
         var desc = edges.getParam(params.description, false);
         var anchor = edges.getParam(params.anchor, false);
+        var figureLabel = edges.getParam(params.figureLabel, false);
 
         var chart_name = edges.getParam(config.chart_info[chart_id].name, chart_id);
         var chart_size = edges.getParam(config.chart_info[chart_id].size, 10);
@@ -212,6 +214,7 @@ var hord = {
                 title: title,
                 description: desc,
                 anchor: anchor,
+                figureLabel: figureLabel,
                 download: download,
                 downloadName: edges.safeId(chart_name),
                 options: {
