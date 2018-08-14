@@ -1,5 +1,17 @@
 # Google Form Deployment (under WordPress)
 
+## Preparation
+
+The Google Form contains a link to the HORD questionnaire, and as such
+must be customised for each deployment.  Prior to form deploy, go to the
+form at:
+
+https://docs.google.com/forms/d/1D9c5ilwYzzuxNMtUFnFv3EtpYS5P-Hq0hOGSLwEAwQQ/edit
+
+Choose "Settings -> Presentation" and update the URL in the text appropriately
+
+## Deployment
+
 To deploy the user details form which will capture data to the Google
 Sheet, you can embed the Google Form with an `iframe` on any WordPress
 page by including the following HTML:
@@ -19,9 +31,9 @@ page by including the following HTML:
 <p>Once you have filled in the form, or if you have filled it in before, then go straight to the questionnaire <a href="/hord">here</a></p>
 
 <iframe 
-    src="https://docs.google.com/forms/d/e/1FAIpQLSePLAoZXmCMh99poJwiMxEj7On6lhsdHknSMASSNzub9r4Lug/viewform?embedded=true" 
+    src="https://docs.google.com/forms/d/e/1FAIpQLSePLAoZXmCMh99poJwiMxEj7On6lhsdHknSMASSNzub9r4Lug/viewform?embedded=true&hl=en" 
     width="100%" 
-    height="3000px" 
+    height="2125px" 
     frameborder="0" 
     marginheight="0" 
     marginwidth="0"
@@ -32,7 +44,7 @@ page by including the following HTML:
 <p>Once you have filled in the form, or if you have filled it in before, then go straight to the questionnaire <a href="/hord">here</a></p>
 ```
 
-Note that the height of `3000px` is intended to ensure that the entire
+Note that the height of `2125px` is intended to ensure that the entire
 form is displayed without scroll bars inside the `iframe`.  You can adjust
 these dimensions as desired for your page layout.
 

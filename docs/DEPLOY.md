@@ -57,8 +57,6 @@ A full page which implements the questionnaire looks as follows:
         <div id="hord"></div>
         <div>
             <br><br>
-            <p>For more information, see <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
-    
             <p>To feed back on how this is or is not working for you, please mail us <a href="mailto:info@sparceurope.org">info@sparceurope.org</a></p>
         
             <p>This service has been based on the work of DCC and its RISE framework. For more information, see 
@@ -76,9 +74,9 @@ A full page which implements the questionnaire looks as follows:
             hord.init({
                 source_selector: "#hord-form",
                 working_selector: "#hord",
-                editUrlTemplate: "/hord_build.html?mode=edit&d={summary}",
+                editUrlTemplate: "[full-url]/hord_build.html?mode=edit&d={summary}",
                 editUrlRegex: new RegExp(".+&d=(.+)"),
-                viewUrlTemplate: "/hord_build.html?mode=view&d={summary}",
+                viewUrlTemplate: "[full-url]/hord_build.html?mode=view&d={summary}",
                 viewUrlRegex: new RegExp(".+&d=([^#]+)")
             })
         });
@@ -88,6 +86,8 @@ A full page which implements the questionnaire looks as follows:
     </html>
 
 The full questionnaire for inclusion in the section `<div id="hord-form" style="display:none">` can be found in src/fragments/hord.form.html.
+
+Replace `[full-url]` with the full base URL for the site.
 
 
 We need to set up a WordPress page so that it is equivalent to this.
@@ -145,8 +145,6 @@ following HTML fragment:
         <div id="hord"></div>
         <div>
             <br><br>
-            <p>For more information, see <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
-    
             <p>To feed back on how this is or is not working for you, please mail us <a href="mailto:info@sparceurope.org">info@sparceurope.org</a></p>
         
             <p>This service has been based on the work of DCC and its RISE framework. For more information, see 
@@ -169,9 +167,40 @@ following HTML fragment:
     </script>
     
 
+### Breaking out of Google Form iFrame
+
+If you are directing users to this page from a Google Form "complete" page which is
+embedded in an iFrame, you will need to wrap the HORD init code as follows:
+
+```
+<script type="application/javascript">
+    var that = this;
+    jQuery(document).ready(function($) {
+        function breakout() {
+            if (that.location !== that.top.location) {
+                that.top.location = that.location;
+            } else {
+                window.$||(window.$=jQuery);
+                hord.init({
+                    source_selector: "#hord-form",
+                    working_selector: "#hord",
+                    editUrlTemplate: "https://sparceurope.org/test2017/hord?mode=edit&d={summary}",
+                    editUrlRegex: new RegExp(".+&d=(.+)"),
+                    viewUrlTemplate: "https://sparceurope.org/test2017/hord?mode=view&d={summary}",
+                    viewUrlRegex: new RegExp(".+&d=([^#]+)"),
+                    scrollOffset: 100
+                })
+            }
+        }
+        breakout();
+    });
+</script>
+```
+
 ### Example full page from WordPress Test site
 
 Below is the full HTML content of a page on the SPARC WordPress site which implements the HORD questionnaire
+and breaks out of any iFrame that is present.
 
 
     <link rel="stylesheet" href="http://sparceurope.org/test2017/wp-content/uploads/2018/06/hord.dep_.css">
@@ -556,8 +585,6 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
         <div id="hord"></div>
         <div class="more-information">
             <br><br>
-            <p>For more information, see <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
-    
             <p>To feed back on how this is or is not working for you, please mail us <a href="mailto:info@sparceurope.org">info@sparceurope.org</a></p>
         
             <p>This service has been based on the work of DCC and its RISE framework. For more information, see 
@@ -569,17 +596,25 @@ Below is the full HTML content of a page on the SPARC WordPress site which imple
     <script type="text/javascript" src="http://sparceurope.org/test2017/wp-content/uploads/2018/06/hord.min_.js"></script>
     
     <script type="application/javascript">
+        var that = this;
         jQuery(document).ready(function($) {
-            window.$||(window.$=jQuery);
-            hord.init({
-                source_selector: "#hord-form",
-                working_selector: "#hord",
-                editUrlTemplate: "/hord?mode=edit&d={summary}",
-                editUrlRegex: new RegExp(".+&d=(.+)"),
-                viewUrlTemplate: "/hord?mode=view&d={summary}",
-                viewUrlRegex: new RegExp(".+&d=([^#]+)")
-            })
+            function breakout() {
+                if (that.location !== that.top.location) {
+                    that.top.location = that.location;
+                } else {
+                    window.$||(window.$=jQuery);
+                    hord.init({
+                        source_selector: "#hord-form",
+                        working_selector: "#hord",
+                        editUrlTemplate: "https://sparceurope.org/test2017/hord?mode=edit&d={summary}",
+                        editUrlRegex: new RegExp(".+&d=(.+)"),
+                        viewUrlTemplate: "https://sparceurope.org/test2017/hord?mode=view&d={summary}",
+                        viewUrlRegex: new RegExp(".+&d=([^#]+)"),
+                        scrollOffset: 100
+                    })
+                }
+            }
+            breakout();
         });
     </script>
-    
     
