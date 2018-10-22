@@ -18,15 +18,15 @@
     <form data-hord="config" data-hord-charts="main,tailored,leading"
           data-hord-charts-main-name="RDM Offering"
           data-hord-charts-main-size="9"
-          data-hord-charts-main-visibility="edit,view"
+          data-hord-charts-main-visibility="edit,view,finish"
           data-hord-charts-main-description="This graph shows the range of RDM policy, support and services you provide."
           data-hord-charts-tailored-name="RDM Tailored Services"
           data-hord-charts-tailored-size="3"
-          data-hord-charts-tailored-visibility="view"
+          data-hord-charts-tailored-visibility="view,finish"
           data-hord-charts-tailored-description="This graph shows how far you tailor RDM to the needs of your users."
           data-hord-charts-leading-name="Sector-Leading RDM Activity"
           data-hord-charts-leading-size="3"
-          data-hord-charts-leading-visibility="view"
+          data-hord-charts-leading-visibility="view,finish"
           data-hord-charts-leading-description="This graph shows how much of an innovator you are in this field.">
 
     <section>
@@ -37,46 +37,75 @@
         <section>
             <h1 data-hord="axis" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored,leading">RDM policy and strategy</h1>
 
+            <p>Select the choice that best fits your situation. If you select the third option, levels 1-3 are satisfied.</p>
+
             <h2>Policy development</h2>
 
             <div class="answer">
-                <input name="a" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main">Institutional policy articulates roles &amp; responsibilities for researchers, other staff and students to comply with legal &amp; regulatory obligations and external funders' RDM policy expectations
+                <input name="a" value="1" type="radio"
+                       data-hord="value" data-hord-axisid="rdm-policy" data-hord-charts="main"
+                       data-hord-weight-main="1"
+                >Institutional policy articulates roles &amp; responsibilities for researchers, other staff and students to comply with legal &amp; regulatory obligations and external funders' RDM policy expectations
             </div>
 
             <div class="answer">
-                <input name="b" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,tailored">Institutional policy articulates the value of good RDM practice to the institution and its rationale for retaining data of long-term value. Policy is subject to a regular, scheduled review process.
+                <input name="a" value="2" type="radio"
+                       data-hord="value" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored"
+                       data-hord-weight-main="2" data-hord-weight-tailored="1"
+                >Institutional policy articulates the value of good RDM practice to the institution and its rationale for retaining data of long-term value. Policy is subject to a regular, scheduled review process.
             </div>
 
             <div class="answer">
-                <input name="c" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,leading">Institutional policies with a bearing on RDM (e.g. FOI, ethics, research conduct, etc.) are joined up and complementary. Policies are externally promoted, aiming to push the sector forward.
+                <input name="a" value="3" type="radio"
+                       data-hord="value" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored,leading"
+                       data-hord-weight-main="3" data-hord-weight-tailored="1" data-hord-weight-leading="1"
+                >Institutional policies with a bearing on RDM (e.g. FOI, ethics, research conduct, etc.) are joined up and complementary. Policies are externally promoted, aiming to push the sector forward.
             </div>
 
             <h2>Awareness raising and stakeholder engagement</h2>
 
             <div class="answer">
-                <input name="d" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main">Research data policies are promoted to all relevant staff, students and researchers
+                <input name="b" value="1" type="radio"
+                       data-hord="value" data-hord-axisid="rdm-policy" data-hord-charts="main"
+                       data-hord-weight-main="1"
+                >Research data policies are promoted to all relevant staff, students and researchers
             </div>
 
             <div class="answer">
-                <input name="e" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,tailored">Guidance on how to apply all relevant policies to the institutional context is provided and promoted to all relevant staff, students and researchers.
+                <input name="b" value="2" type="radio"
+                       data-hord="value" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored"
+                       data-hord-weight-main="2" data-hord-weight-tailored="1"
+                >Guidance on how to apply all relevant policies to the institutional context is provided and promoted to all relevant staff, students and researchers.
             </div>
 
             <div class="answer">
-                <input name="f" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,leading">Policies are promoted by the institution through channels designed to engage with staff, student and researcher groups’ specific interests.
+                <input name="b" value="3" type="radio"
+                       data-hord="value" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored,leading"
+                       data-hord-weight-main="3" data-hord-weight-tailored="1" data-hord-weight-leading="1"
+                >Policies are promoted by the institution through channels designed to engage with staff, student and researcher groups’ specific interests.
             </div>
 
             <h2>RDM implementation roadmap</h2>
 
             <div class="answer">
-                <input name="g" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main">RDM roadmap is compliance focussed and defined by funder requirements
+                <input name="c" value="1" type="radio"
+                       data-hord="value" data-hord-axisid="rdm-policy" data-hord-charts="main"
+                       data-hord-weight-main="1"
+                >RDM roadmap is compliance focussed and defined by funder requirements
             </div>
 
             <div class="answer">
-                <input name="h" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,tailored">Roadmap is informed by the institution’s strategies and its researchers' priorities.
+                <input name="c" value="2" type="radio"
+                       data-hord="value" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored"
+                       data-hord-weight-main="2" data-hord-weight-tailored="1"
+                >Roadmap is informed by the institution’s strategies and its researchers' priorities.
             </div>
 
             <div class="answer">
-                <input name="i" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,leading">Roadmap/strategy seeks to derive competitive advantage from RDM support. It aims to be sector-leading and innovative
+                <input name="c" value="3" type="radio"
+                       data-hord="value" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored,leading"
+                       data-hord-weight-main="3" data-hord-weight-tailored="1" data-hord-weight-leading="1"
+                >Roadmap/strategy seeks to derive competitive advantage from RDM support. It aims to be sector-leading and innovative
             </div>
 
         </section>
@@ -87,43 +116,70 @@
             <h2>Staff Investment</h2>
 
             <div class="answer">
-                <input name="j" type="checkbox" data-hord="value" data-hord-axisid="business-sustainability" data-hord-weight="1" data-hord-charts="main">RDM service is delivered by dividing responsibilities among existing staff.
+                <input name="d" value="1" type="radio"
+                       data-hord="value" data-hord-axisid="business-sustainability" data-hord-charts="main"
+                       data-hord-weight-main="1"
+                >RDM service is delivered by dividing responsibilities among existing staff.
             </div>
 
             <div class="answer">
-                <input name="k" type="checkbox" data-hord="value" data-hord-axisid="business-sustainability" data-hord-weight="1" data-hord-charts="main,tailored">RDM service is delivered through significant redesign of staff roles including investment in staff development.
+                <input name="d" value="2" type="radio"
+                       data-hord="value" data-hord-axisid="business-sustainability" data-hord-charts="main,tailored"
+                       data-hord-weight-main="2" data-hord-weight-tailored="1"
+                >RDM service is delivered through significant redesign of staff roles including investment in staff development.
             </div>
 
             <div class="answer">
-                <input name="l" type="checkbox" data-hord="value" data-hord-axisid="business-sustainability" data-hord-weight="1" data-hord-charts="main,leading">The RDM service is delivered by major redesign of staff roles, consistent with the establishment of an RDM service.
+                <input name="d" value="3" type="radio"
+                       data-hord="value" data-hord-axisid="business-sustainability" data-hord-charts="main,tailored,leading"
+                       data-hord-weight-main="3" data-hord-weight-tailored="1" data-hord-weight-leading="1"
+                >The RDM service is delivered by major redesign of staff roles, consistent with the establishment of an RDM service.
             </div>
 
             <h2>Technology Investment</h2>
 
             <div class="answer">
-                <input name="m" type="checkbox" data-hord="value" data-hord-axisid="business-sustainability" data-hord-weight="1" data-hord-charts="main">A base level of investment in technical infrastructure, with commitment to supporting recurring costs, ensures that researchers can make their data findable and accessible in the long-term.
+                <input name="e" value="1" type="radio"
+                       data-hord="value" data-hord-axisid="business-sustainability" data-hord-charts="main"
+                       data-hord-weight-main="1"
+                >A base level of investment in technical infrastructure, with commitment to supporting recurring costs, ensures that researchers can make their data findable and accessible in the long-term.
             </div>
 
             <div class="answer">
-                <input name="n" type="checkbox" data-hord="value" data-hord-axisid="business-sustainability" data-hord-weight="1" data-hord-charts="main,tailored">The institution coordinates investment in the central technical services it deems a strategic priority for research data life-cycle support.
+                <input name="e" value="2" type="radio"
+                       data-hord="value" data-hord-axisid="business-sustainability" data-hord-charts="main,tailored"
+                       data-hord-weight-main="2" data-hord-weight-tailored="1"
+                >The institution coordinates investment in the central technical services it deems a strategic priority for research data life-cycle support.
             </div>
 
             <div class="answer">
-                <input name="o" type="checkbox" data-hord="value" data-hord-axisid="business-sustainability" data-hord-weight="1" data-hord-charts="main,leading">The institution invests in technical infrastructure for all aspects of the research data life cycle, interoperating with tools and workflows at research group level.
+                <input name="e" value="3" type="radio"
+                       data-hord="value" data-hord-axisid="business-sustainability" data-hord-charts="main,tailored,leading"
+                       data-hord-weight-main="3" data-hord-weight-tailored="1" data-hord-weight-leading="1"
+                >The institution invests in technical infrastructure for all aspects of the research data life cycle, interoperating with tools and workflows at research group level.
             </div>
 
             <h2>Cost modelling</h2>
 
             <div class="answer">
-                <input name="p" type="checkbox" data-hord="value" data-hord-axisid="business-sustainability" data-hord-weight="1" data-hord-charts="main">All RDM service costs are covered by overheads on grants.
+                <input name="f" value="1" type="radio"
+                       data-hord="value" data-hord-axisid="business-sustainability" data-hord-charts="main"
+                       data-hord-weight-main="1"
+                >All RDM service costs are covered by overheads on grants.
             </div>
 
             <div class="answer">
-                <input name="q" type="checkbox" data-hord="value" data-hord-axisid="business-sustainability" data-hord-weight="1" data-hord-charts="main,tailored">Standard RDM services are funded through grant overheads. Where support exceeds the norm mechanisms allow for direct charging of grants.
+                <input name="f" value="2" type="radio"
+                       data-hord="value" data-hord-axisid="business-sustainability" data-hord-charts="main,tailored"
+                       data-hord-weight-main="2" data-hord-weight-tailored="1"
+                >Standard RDM services are funded through grant overheads. Where support exceeds the norm mechanisms allow for direct charging of grants.
             </div>
 
             <div class="answer">
-                <input name="r" type="checkbox" data-hord="value" data-hord-axisid="business-sustainability" data-hord-weight="1" data-hord-charts="main,leading">Cost modelling enables specialist, stand-alone RDM services to be offered alongside standard support provision. (e.g. statistical modelling service or data visualisation service).
+                <input name="f" value="2" type="radio"
+                       data-hord="value" data-hord-axisid="business-sustainability" data-hord-charts="main,tailored,leading"
+                       data-hord-weight-main="3" data-hord-weight-tailored="1" data-hord-weight-leading="1"
+                >Cost modelling enables specialist, stand-alone RDM services to be offered alongside standard support provision. (e.g. statistical modelling service or data visualisation service).
             </div>
         </section>
 
@@ -243,7 +299,7 @@
             <h2>Data collection policy</h2>
 
             <div class="answer">
-                <input name="an" type="checkbox" data-hord="value" data-hord-axisid="appraisal" data-hord-weight="1" data-hord-charts="main">Service primarily supports data deposit to third-party repositories, and holds datasets in-house when legal/ regulatory compliance requires
+                <input name="an" type="checkbox" data-hord="value" data-hord-axisid="appraisal" data-hord-weight="1" data-hord-charts="main">Service primarily supports data deposit to third-party repositories, and holds datasets in a local data store or repository mainly for compliance purposes
             </div>
 
             <div class="answer">
@@ -422,7 +478,7 @@
             working_selector: "#hord",
             editUrlTemplate: "/hord.html?mode=edit&d={summary}",
             editUrlRegex: new RegExp(".+&d=(.+)"),
-            viewUrlTemplate: "/hord.html?mode=view&d={summary}",
+            viewUrlTemplate: "/hord.html?mode=view&chart={chart}&d={summary}",
             viewUrlRegex: new RegExp(".+&d=([^#]+)"),
             scrollOffset: 10
         })

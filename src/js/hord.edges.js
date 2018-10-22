@@ -31,12 +31,18 @@ var hord = {
         // is there any data for us to pull out of the url bar?
         hord.prePopulateFromURL({selector: form_selector, urlRegex: viewUrlRegex});
 
+        var urlParams = edges.getUrlParams();
+        var selectedChart = edges.getParam(urlParams.chart, "main");
+
         var config = hord.readConfig({form_selector: form_selector});
         hord.DATA.config = config;
 
         var components = [];
         for (var i = 0; i < config.charts.length; i++) {
             var chart_id = config.charts[i];
+            if (chart_id !== selectedChart) {
+                continue;
+            }
             if ($.inArray("view", config.chart_info[chart_id].visibility) > -1) {
                 components.push(hord._makeChartComponent({
                     form_selector: form_selector,
@@ -69,7 +75,6 @@ var hord = {
         var editUrlTemplate = params.editUrlTemplate;
         var editUrlRegex = params.editUrlRegex;
         var viewUrlTemplate = params.viewUrlTemplate;
-        var viewUrlRegex = params.viewUrlRegex;
 
         var scrollOffset = edges.getParam(params.scrollOffset, 0);
 
@@ -122,6 +127,7 @@ var hord = {
             resource: form_selector,
             editUrlTemplate: editUrlTemplate,
             viewUrlTemplate: viewUrlTemplate,
+            listBookmarks: true,
             manageUrl: true
         }));
         
@@ -137,19 +143,39 @@ var hord = {
         var urlsId = element.attr("id");
         element.html('<div id="persistent-link-in-form"></div>');
 
+        var finalComponents = [
+            hord.newPersistentLink({
+                id: "persistent-link-in-form",
+                sourceChart: "main",
+                resource: form_selector,
+                editUrlTemplate: editUrlTemplate,
+                viewUrlTemplate: viewUrlTemplate,
+                listCharts: true,
+                listBookmarks: false,
+                manageUrl: false
+            })
+        ];
+        /*
+        for (var i = 0; i < config.charts.length; i++) {
+            var chart_id = config.charts[i];
+            if ($.inArray("finish", config.chart_info[chart_id].visibility) > -1) {
+                finalComponents.push(hord._makeChartComponent({
+                    namespace: "finish_page_",
+                    form_selector: form_selector,
+                    chart_id: chart_id,
+                    config: config,
+                    titleCallback: function() {
+                        return config.chart_info[chart_id].name
+                    },
+                    description: config.chart_info[chart_id].description,
+                    pointLabels: false
+                }));
+            }
+        }*/
         var e2 = edges.newEdge({
             selector: "#" + urlsId,
-            components: [
-                hord.newPersistentLink({
-                    id: "persistent-link-in-form",
-                    sourceChart: "main",
-                    resource: form_selector,
-                    editUrlTemplate: editUrlTemplate,
-                    viewUrlTemplate: viewUrlTemplate,
-                    listCharts: true,
-                    manageUrl: false
-                })
-            ]
+            // template: hord.newFinishPageTemplate(),
+            components: finalComponents
         });
         hord.DATA.urls_edge = e2;
 
@@ -193,6 +219,7 @@ var hord = {
     },
 
     _makeChartComponent : function(params) {
+        var namespace = edges.getParam(params.namespace, "");
         var chart_id = params.chart_id;
         var form_selector = params.form_selector;
         var config = params.config;
@@ -201,12 +228,13 @@ var hord = {
         var desc = edges.getParam(params.description, false);
         var anchor = edges.getParam(params.anchor, false);
         var figureLabel = edges.getParam(params.figureLabel, false);
+        var pointLabels = edges.getParam(params.pointLabels, true);
 
         var chart_name = edges.getParam(config.chart_info[chart_id].name, chart_id);
         var chart_size = edges.getParam(config.chart_info[chart_id].size, 10);
 
         return edges.newChart({
-            id: chart_id,
+            id: namespace + chart_id,
             category: "radar",
             dataFunction: hord.dataFunction({chart: chart_id, resource: form_selector}),
             dataSeriesNameMapFunction: hord.dataSeriesNameMap({resource: form_selector, subtitle: chart_name}),
@@ -228,6 +256,9 @@ var hord = {
                             suggestedMax: chart_size,
                             callback: function() {return ""},
                             backdropColor: "rgba(0, 0, 0, 0)"
+                        },
+                        pointLabels : {
+                            display: pointLabels
                         }
                     },
                     legend: {
@@ -315,7 +346,11 @@ var hord = {
             var idents = parts[1].split(",");
             for (var i = 0; i < idents.length; i++) {
                 var ident = idents[i];
-                var selector = 'input[name=' + ident + ']';
+                var ident_parts = ident.split("#");
+                var selector = 'input[name=' + ident_parts[0] + ']';
+                if (ident_parts.length == 2) {
+                    selector += "[value=" + ident_parts[1] + "]";
+                }
                 $(selector, form_selector).prop("checked", true);
             }
         }
@@ -359,6 +394,32 @@ var hord = {
         }
     },
 
+    /*
+    newFinishPageTemplate : function(params) {
+        return edges.instantiate(hord.FinishPageTemplate, params, edges.newTemplate);
+    },
+    FinishPageTemplate : function(params) {
+        this.namespace = "hord-finish-page";
+
+        this.draw = function(edge) {
+            this.edge = edge;
+
+            var containerClass = edges.css_classes(this.namespace, "container");
+            var sectionClass = edges.css_classes(this.namespace, "section");
+
+            var frag = '<div class="' + containerClass + '">';
+            frag += '<p>The following charts are available for you:</p>';
+            var radars = edge.category("radar");
+            for (var i = 0; i < radars.length; i++) {
+                frag += '<div class="' + sectionClass + '">\
+                    <div class="row"><div class="col-md-8"><div id="' + radars[i].id + '"></div></div></div>\
+                </div>'
+            }
+
+            edge.context.html(frag);
+        }
+    },*/
+
     newPersistentLink : function(params) {
         return edges.instantiate(hord.PersistentLink, params, edges.newComponent);
     },
@@ -369,11 +430,11 @@ var hord = {
         this.viewUrlTemplate = params.viewUrlTemplate;
         this.manageUrl = params.manageUrl;
         this.listCharts = edges.getParam(params.listCharts, false);
+        this.listBookmarks = edges.getParam(params.listBookmarks, false);
 
         this.renderer = hord.newPersistentLinkRenderer({
             manageUrl: this.manageUrl
         });
-
 
         this.summary = "";
 
@@ -426,20 +487,21 @@ var hord = {
             var editUrl = this.component.editUrlTemplate.replace("{summary}", s);
             var viewUrl = this.component.viewUrlTemplate.replace("{summary}", s);
 
-            var frag = "<p>To return to this form and make changes, bookmark the following URL: ";
-            frag += '<span style="word-wrap: break-word"><a href="' + editUrl + '">' + editUrl + "</a></span></p>";
-            frag += '<p>To view or share the diagrams, bookmark the following URL: ';
-            frag += '<span style="word-wrap: break-word"><a href="' + viewUrl + '">' + viewUrl + "</a></span></p>";
+            var frag = "";
+            if (this.component.listBookmarks) {
+                frag = '<p>To return to this form and make changes you can <a href="' + editUrl + '">bookmark this page</a>';
+                // frag += '<p>To view or share the diagrams, <a href="' + viewUrl + '">click here</a> and bookmark the page';
+            }
 
             if (this.component.listCharts) {
                 frag += '<p>The following charts are available for you:</p>';
                 for (var i = 0; i < this.component.chartInfo.length; i++) {
                     var info = this.component.chartInfo[i];
-                    var hashUrl = viewUrl + "#" + edges.safeId(info.id);
-                    frag += '<p><strong>' + info.title + '</strong> - ' + info.description + '<br><span style="word-wrap: break-word"><a href="' + hashUrl + '">' + hashUrl + '</a></span></p>';
+                    var chartUrl = viewUrl.replace("{chart}", info.id);
+                    // viewUrl + "#" + edges.safeId(info.id);
+                    frag += '<p><strong><a href="' + chartUrl + '">' + info.title + '</a></strong> - ' + info.description + '<br></p>';
                 }
             }
-
 
             this.component.context.html(frag);
 
@@ -540,7 +602,11 @@ var hord = {
             if (value.axisid === axisid && value.checked === true) {
                 if (chart in value.weights) {
                     length += value.weights[chart];
-                    selected.push(value.name);
+                    var handle = value.name;
+                    if (value.value) {
+                        handle += "#" + value.value;
+                    }
+                    selected.push(handle);
                 }
             }
         }
@@ -601,6 +667,7 @@ var hord = {
         var weight = el.attr("data-hord-weight");
         var charts = el.attr("data-hord-charts");
         var name = el.attr("name");
+        var value = el.attr("value");
         var checked = el.is(":checked");
 
         if (!weight) {
@@ -626,7 +693,7 @@ var hord = {
             weights[charts[i]] = chart_weight;
         }
 
-        return {axisid : axisid, name : name, checked: checked, weights: weights};
+        return {axisid : axisid, name : name, value: value, checked: checked, weights: weights};
     },
 
     newSectionManager : function(params) {

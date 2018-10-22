@@ -437,7 +437,7 @@ and breaks out of any iFrame that is present.
                 <h2>Data collection policy</h2>
         
                 <div class="answer">
-                    <input name="an" type="checkbox" data-hord="value" data-hord-axisid="appraisal" data-hord-weight="1" data-hord-charts="main">Service primarily supports data deposit to third-party repositories, and holds datasets in-house when legal/ regulatory compliance requires
+                    <input name="an" type="checkbox" data-hord="value" data-hord-axisid="appraisal" data-hord-weight="1" data-hord-charts="main">Service primarily supports data deposit to third-party repositories, and holds datasets in a local data store or repository mainly for compliance purposes
                 </div>
         
                 <div class="answer">
