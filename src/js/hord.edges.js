@@ -273,6 +273,7 @@ var hord = {
                         fill:true,
                         backgroundColor:"rgba(87, 153, 199, 0.3)",
                         borderColor:"#5799C7",
+                        borderWidth: 4,
                         pointBackgroundColor:"#5799C7",
                         pointBorderColor:"#fff",
                         pointHoverBackgroundColor:"#fff",

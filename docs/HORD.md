@@ -69,7 +69,7 @@ Then you can initialise the code over your form as follows:
             working_selector: "#hord",
             editUrlTemplate: "/hord.html?mode=edit&d={summary}",
             editUrlRegex: new RegExp(".+&d=(.+)"),
-            viewUrlTemplate: "/hord.html?mode=view&d={summary}",
+            viewUrlTemplate: "/hord.html?mode=view&chart={chart}&d={summary}",
             viewUrlRegex: new RegExp(".+&d=(.+)")
         })
     });
@@ -90,8 +90,9 @@ to be located.  This must contain the followign query arguments:
     * d={summary}
 
 * viewUrlTemplate - the URL for the page where you'd like the view-only page
-to be located.  This must contain the followign query arguments:
+to be located.  This must contain the following query arguments:
     * mode=edit
+    * chart={chart}
     * d={summary}
 
 
@@ -249,13 +250,17 @@ For example, this is the definition of an axis which appears on three charts:
 Each axis on the Radar chart will have a value, which defines how far
 out from the center the area plot will be anchored along that axis.
 
-The axes get their value from the sum of all the checkboxes in the form
-which are checked which are appropriate for that axis.
+The axes get their value from the sum of all the checkboxes and/or radio
+buttons in the form which are checked which are appropriate for that axis.
 
-If 3 checkboxes are selected for a given axis, that axis will have a value
+For example, if 3 checkboxes are selected for a given axis, that axis will have a value
 of 3 (unless the weights of the checkboxes are changed, see below)
 
-For each `input` which is a checkbox which can contribute to the value
+Note:
+* if the `input` is a checkbox, it must have a unique `name` attribute.
+* if the `input` is a radio button, it must have a unique `name` and `value` combination
+
+For each `input` which is a checkbox or radio button which can contribute to the value
 of an axis, we use the attribute
 
 ```
@@ -308,17 +313,30 @@ a weight of 1 by default, and a weight of 2 on the "tailored" chart.
         data-hord-charts="main,tailored">
 ```
 
+Meanwhile, the following defines two radio buttons, one which only contributes
+to the "main" chart, and one that contributes double to "main" and once to "tailored":
+
+```
+<input name="b" value="1" type="radio"
+    data-hord="value" data-hord-axis-id="rdm-policy" data-hord-charts="main"
+    data-hord-weight-main="1">
+    
+<input name="b" value="2" type="radio"
+    data-hord="value", data-hord-axis-id="rdm-policy" data-hord-charts="main,tailored"
+    data-hord-weight-main="2" data-hord-weight-tailored="1">
+```
+
 
 ## Optimising URLs
 
 The application uses the URL to maintain page state - there is no back-end
 storage for the forms.  
 
-It does this by taking the list of `input` checkbox names and creating a comma
+It does this by taking the list of `input` checkbox/radion names (+ values) and creating a comma
 separated list of those that have been selected, and then passing it through
 base64 encoding.
 
-As a result, the longer your `input` names, the longer the URLs.
+As a result, the longer your `input` names (and values), the longer the URLs.
 
 If possible, it is best to keep the names of your `input` boxes as short
 as possible, in order to constrain the overall length of the URL.  For 
@@ -328,6 +346,8 @@ example, contracting them to single or two character strings:
 <input name="a" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main">
 <input name="b" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,tailored">
 <input name="c" type="checkbox" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,leading">
+<input name="d" value="1" type="radio" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,leading">
+<input name="d" value="2" type="radio" data-hord="value" data-hord-axisid="rdm-policy" data-hord-weight="1" data-hord-charts="main,leading">
 ```
 
 

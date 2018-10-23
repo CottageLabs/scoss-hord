@@ -7,6 +7,9 @@
 #hord input[type=checkbox] {
     margin-right: 10px;
 }
+#hord input[type=radio] {
+    margin-right: 10px;
+}
 #hord .answer {
     margin-bottom: 5px;
 }
@@ -38,4 +41,8 @@
 }
 .more-information {
     margin-top: 50px;
+}
+.edges-chartjs-radar-title {
+    font-weight: bold;
+    font-size: 200%;
 }
