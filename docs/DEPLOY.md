@@ -76,7 +76,7 @@ A full page which implements the questionnaire looks as follows:
                 working_selector: "#hord",
                 editUrlTemplate: "[full-url]/hord_build.html?mode=edit&d={summary}",
                 editUrlRegex: new RegExp(".+&d=(.+)"),
-                viewUrlTemplate: "[full-url]/hord_build.html?mode=view&d={summary}",
+                viewUrlTemplate: "[full-url]/hord_build.html?mode=view&chart={chart}&d={summary}",
                 viewUrlRegex: new RegExp(".+&d=([^#]+)")
             })
         });
@@ -160,7 +160,7 @@ following HTML fragment:
                 working_selector: "#hord",
                 editUrlTemplate: "/hord_build.html?mode=edit&d={summary}",
                 editUrlRegex: new RegExp(".+&d=(.+)"),
-                viewUrlTemplate: "/hord_build.html?mode=view&d={summary}",
+                viewUrlTemplate: "/hord_build.html?mode=view&chart={chart}&d={summary}",
                 viewUrlRegex: new RegExp(".+&d=([^#]+)")
             })
         });
@@ -186,7 +186,7 @@ embedded in an iFrame, you will need to wrap the HORD init code as follows:
                     working_selector: "#hord",
                     editUrlTemplate: "https://sparceurope.org/test2017/hord?mode=edit&d={summary}",
                     editUrlRegex: new RegExp(".+&d=(.+)"),
-                    viewUrlTemplate: "https://sparceurope.org/test2017/hord?mode=view&d={summary}",
+                    viewUrlTemplate: "https://sparceurope.org/test2017/hord?mode=view&chart={chart}&d={summary}",
                     viewUrlRegex: new RegExp(".+&d=([^#]+)"),
                     scrollOffset: 100
                 })
@@ -229,9 +229,9 @@ and breaks out of any iFrame that is present.
             </section>
     
             <section>
-                <h1 data-hord="axis" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored,leading">RDM policy and strategy</h1>
-    
                 <p>Select the choice that best fits your situation. If you select the third option, levels 1-3 are satisfied.</p>
+                
+                <h1 data-hord="axis" data-hord-axisid="rdm-policy" data-hord-charts="main,tailored,leading">RDM policy and strategy</h1>
     
                 <h2>Policy development</h2>
     
@@ -788,7 +788,7 @@ and breaks out of any iFrame that is present.
             <br><br>
             <p>To feed back on how this is or is not working for you, please mail us <a href="mailto:info@sparceurope.org">info@sparceurope.org</a></p>
         
-            <p>This service has been based on the work of DCC and its RISE framework. For more information, see 
+            <p>This service has been based on the work of <a href="https://www.dcc.ac.uk/">DCC</a> and its RISE framework. For more information, see
                         <a href="http://www.dcc.ac.uk/resources/how-guides/RISE">http://www.dcc.ac.uk/resources/how-guides/RISE</a></p>
         </div>
     </div></div>
@@ -809,7 +809,7 @@ and breaks out of any iFrame that is present.
                         working_selector: "#hord",
                         editUrlTemplate: "https://sparceurope.org/test2017/hord?mode=edit&d={summary}",
                         editUrlRegex: new RegExp(".+&d=(.+)"),
-                        viewUrlTemplate: "https://sparceurope.org/test2017/hord?mode=view&d={summary}",
+                        viewUrlTemplate: "https://sparceurope.org/test2017/hord?mode=view&chart={chart}&d={summary}",
                         viewUrlRegex: new RegExp(".+&d=([^#]+)"),
                         scrollOffset: 100
                     })

@@ -54,3 +54,8 @@
 .more-information {
     margin-top: 50px;
 }
+
+.edges-chartjs-radar-download-container {
+    font-size: 150%;
+    font-weight: bold;
+}
